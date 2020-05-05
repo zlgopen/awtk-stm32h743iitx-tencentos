@@ -367,6 +367,11 @@
 "..\obj\draggable.o"
 "..\obj\cond_var_null.o"
 "..\obj\sys_tick_handler.o"
+"..\obj\assert.o"
+"..\obj\lcd_impl.o"
+"..\obj\main_loop_impl.o"
+"..\obj\platform.o"
+"..\obj\sys_tick.o"
 --strict --scatter "..\OBJ\Template.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

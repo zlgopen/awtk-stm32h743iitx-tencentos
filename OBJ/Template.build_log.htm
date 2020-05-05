@@ -27,14 +27,15 @@ Project File Date:  05/05/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'awtkapp'
-compiling stm32h7xx_it.c...
+compiling main.c...
+main.c(93): warning:  #188-D: enumerated type mixed with another type
+  	system_info_init(0, "app", 
+ULL);
+main.c: 1 warning, 0 errors
 linking...
-..\OBJ\Template.axf: Error: L6218E: Undefined symbol main_loop_init (referred from awtk_global.o).
-..\OBJ\Template.axf: Error: L6218E: Undefined symbol platform_prepare (referred from awtk_global.o).
-Not enough information to list image symbols.
-Not enough information to list load addresses in the image map.
-Finished: 2 information, 0 warning and 2 error messages.
-"..\OBJ\Template.axf" - 2 Error(s), 0 Warning(s).
+Program Size: Code=196940 RO-data=8448 RW-data=616 ZI-data=34516688  
+FromELF: creating hex file...
+"..\OBJ\Template.axf" - 0 Error(s), 1 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -48,8 +49,7 @@ Package Vendor: Keil
   C:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Target not created.
-Build Time Elapsed:  00:00:03
+Build Time Elapsed:  00:00:04
 </pre>
 </body>
 </html>

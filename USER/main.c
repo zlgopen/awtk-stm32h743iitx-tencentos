@@ -26,28 +26,73 @@
  作者：正点原子 @ALIENTEK
 ************************************************/
 
+#include "awtk.h"
+lcd_t* lcd_impl_create(wh_t w, wh_t h);
+
+void lcd_test(void) {
+	rect_t r = rect_init(0, 0, 30, 30);
+	lcd_t* lcd = lcd_impl_create(lcdltdc.width, lcdltdc.height);
+	color_t red = color_init(0xff, 0, 0, 0xff);
+	color_t green  = color_init(0, 0xff, 0, 0xff);
+	color_t blue = color_init(0, 0, 0xff, 0xff);
+	color_t gray = color_init(0x80, 0x80, 0x80, 0xff);
+	
+	while(1) {
+		lcd_begin_frame(lcd, &r, LCD_DRAW_NORMAL);
+		lcd_set_fill_color(lcd, gray);
+		lcd_fill_rect(lcd, 0, 0, 30, 30);	
+		lcd_set_fill_color(lcd, red);
+		lcd_fill_rect(lcd, 0, 0, 10, 10);
+		lcd_set_fill_color(lcd, green);
+		lcd_fill_rect(lcd, 10, 10, 10, 10);
+		lcd_set_fill_color(lcd, blue);
+		lcd_fill_rect(lcd, 20, 20, 10, 10);
+		
+		lcd_end_frame(lcd);
+	}
+}
+
+void sys_tick_init(int SYSCLK);
+
+int systick_test(void) {
+  int64_t start = get_time_ms64();
+  sleep_ms(1000);
+  int64_t end = get_time_ms64();
+  int64_t duration = end - start;
+  assert(duration == 1000);
+	
+	return duration;
+}
+
 int main(void)
 {
  	u32 total,free;
 	u8 t=0;	
 	u8 res=0;	
 	
-	Cache_Enable();                			//打开L1-Cache
-	MPU_Memory_Protection();        		//保护相关存储区域
-	HAL_Init();				        		//初始化HAL库
-	Stm32_Clock_Init(160,5,2,4);  		    //设置时钟,400Mhz 
-	delay_init(400);						//延时初始化
-	uart_init(115200);						//串口初始化
-	usmart_dev.init(200); 		    		//初始化USMART	
-	LED_Init();								//初始化LED
-	KEY_Init();								//初始化按键
-	SDRAM_Init();                   		//初始化SDRAM
-	LCD_Init();								//初始化LCD
-    W25QXX_Init();				   		 	//初始化W25Q256
- 	my_mem_init(SRAMIN);		    		//初始化内部内存池
-	my_mem_init(SRAMEX);		    		//初始化外部内存池
-	my_mem_init(SRAMDTCM);		    		//初始化CCM内存池 
-   	POINT_COLOR=RED;
+	Cache_Enable();                	
+	MPU_Memory_Protection();        
+	HAL_Init();				        		
+	Stm32_Clock_Init(160,5,2,4); 
+	//delay_init(400);						
+	uart_init(115200);						
+	usmart_dev.init(200); 		
+	LED_Init();								
+	KEY_Init();								
+	SDRAM_Init();      
+	LCD_Init();								
+  W25QXX_Init();				
+	LTDC_Display_Dir(1);
+	
+	sys_tick_init(400);
+	platform_prepare();
+	systick_test();	
+
+	LTDC_Display_Dir(1);
+	platform_prepare();
+	system_info_init(0, "app", NULL);
+	lcd_test();
+	
 	LCD_ShowString(30,50,200,16,16,"Apollo STM32H7"); 
 	LCD_ShowString(30,70,200,16,16,"FATFS TEST");	
 	LCD_ShowString(30,90,200,16,16,"ATOM@ALIENTEK");

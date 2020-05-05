@@ -177,3 +177,332 @@ void SysTick_Handler(void)
 }
 #endif
 ```
+
+
+## 7. 加入硬件平台相关的文件
+
+编译一下，可以发现，编译没有问题，但是链接时有几个函数找不到。
+
+```
+linking...
+..\OBJ\Template.axf: Error: L6218E: Undefined symbol sleep_ms (referred from main_loop.o).
+..\OBJ\Template.axf: Error: L6218E: Undefined symbol main_loop_init (referred from awtk_global.o).
+..\OBJ\Template.axf: Error: L6218E: Undefined symbol platform_prepare (referred from awtk_global.o).
+..\OBJ\Template.axf: Error: L6218E: Undefined symbol get_time_ms64 (referred from time_now.o).
+Not enough information to list image symbols.
+Not enough information to list load addresses in the image map.
+Finished: 2 information, 0 warning and 4 error messages.
+"..\OBJ\Template.axf" - 4 Error(s), 0 Warning(s).
+Target not created.
+Build Time Elapsed:  00:00:09
+```
+
+现在我们在 awtk-port 目录中，加入以下几个文件。
+
+后面写的硬件平台相关的代码，都会放到下面的文件中。这里先把框架写好，后面再来完善：
+
+```
+assert.c  main_loop_impl.c  platform.c
+```
+
+### 7.1. assert.c 
+
+开始移植的时，经常出现 assert，缺省 assert 的实现，触发 assert 时不知道 assert 的位置。为此我们可以自己实现一个 assert 函数，以方便调试时定位：
+
+```c
+#include "tkc/types_def.h"
+
+__attribute__((weak, noreturn)) void __aeabi_assert(const char* expr, const char* file, int line) {
+  for (;;)
+    ;
+}
+```
+
+### 7.2. lcd_impl.c
+
+lcd_impl.c 用于实现 lcd 接口，m4/m7 内存都比较大，通常使用 double framebuffer，我们先把框架实现好，后面根据平台实际情况进行完善
+
+```c
+#include "base/lcd.h"
+#include "tkc/mem.h"
+#include "lcd/lcd_mem_bgr565.h"
+#include "lcd/lcd_mem_bgra8888.h"
+
+static uint8_t* s_framebuffers[2];
+
+lcd_t* lcd_impl_create(wh_t w, wh_t h) {
+  lcd_t* lcd = NULL;
+
+	
+#if LCD_PIXFORMAT==LCD_PIXFORMAT_ARGB8888
+  lcd = lcd_mem_bgra8888_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
+#else
+  lcd = lcd_mem_bgr565_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
+#endif /*LCD_PIXFORMAT*/
+	
+  return lcd;
+}
+```
+
+### 7.3. main_loop_impl.c
+
+main_loop_impl.c 主要负责各种事件的分发，这里使用 main_loop_raw.inc 来实现具体功能，提供 dispatch_input_events 函数用于读取和分发触屏和按键事件即可。
+
+```c
+#include "main_loop/main_loop_simple.h"
+
+uint8_t platform_disaptch_input(main_loop_t* loop) {
+	/*TODO*/
+
+  return 0;
+}
+
+lcd_t* platform_create_lcd(wh_t w, wh_t h) {
+  return NULL;
+}
+
+#include "main_loop/main_loop_raw.inc"
+
+```
+
+### 7.4. systick.c
+
+用于启动systick，提供OS调度和时间相关功能。
+
+```c
+void sys_tick_init(int SYSCLK)
+{
+	/*TODO*/
+}		
+```
+
+### 7.5. platform.c
+
+主要负责 heap 内存的初始化，请根据平台实际情况调整 MEM2_MAX_SIZE 的大小。
+
+在裸系统的平台中，内存主要分为几种用途：
+
+* 栈
+* 堆
+* 驱动
+* 全局变量。
+
+> 请根据具体情况进行分配和调整。
+
+```c
+#include "delay.h"
+#include "tkc/mem.h"
+#include "base/timer.h"
+#include "tkc/platform.h"
+
+uint64_t get_time_ms64() {
+  return HAL_GetTick();
+}
+
+void sleep_ms(uint32_t ms) {
+  delay_ms(ms);
+}
+
+#define MEM2_MAX_SIZE 8 * 1024 * 1024
+#define MEM2_ADDR (uint8_t*)0XC0000000 + 2 * 2 * 480 * 800
+
+ret_t platform_prepare(void) {
+  tk_mem_init(MEM2_ADDR, MEM2_MAX_SIZE);
+	
+  return RET_OK;
+}
+
+```
+
+### 7.6. 将以上文件加入到 keil 工程：
+
+![](images/awtk_port_1.jpg)
+
+再编译一下，发现编译成功了。当然，只是编译成功而已，并不能真正运行起来，具体移植工作，还有没开始呢。
+
+
+## 8. 编写平台相关的代码
+
+### 8.1 实现 lcd
+
+使用 framebuffer 的 lcd 时，首先需要确定 framebuffer 的内存地址，我们可以看看 ltdc.h 里 framebuffer 的定义：
+
+```c
+#if LCD_PIXFORMAT==LCD_PIXFORMAT_ARGB8888||LCD_PIXFORMAT==LCD_PIXFORMAT_RGB888
+	u32 ltdc_lcd_framebuf[1280][800] __attribute__((at(LCD_FRAME_BUF_ADDR)));	
+#else
+	u16 ltdc_lcd_framebuf[1280][800] __attribute__((at(LCD_FRAME_BUF_ADDR)));	
+#endif
+
+```
+
+从以上代码可以看出 LCD framebuffer 的地址为 LCD\_FRAME\_BUF\_ADDR，我们用它就了，lcd\_impl.c 的内容如下：
+
+```c
+
+#include "ltdc.h"
+#include "tkc/mem.h"
+#include "lcd/lcd_mem_bgr565.h"
+#include "lcd/lcd_mem_bgra8888.h"
+
+#define FB_ADDR (uint8_t*)LCD_FRAME_BUF_ADDR
+
+static uint8_t* s_framebuffers[2];
+
+lcd_t* lcd_impl_create(wh_t w, wh_t h) {
+  lcd_t* lcd = NULL;
+  uint32_t size = w * h * lcdltdc.pixsize;
+
+  s_framebuffers[0] = FB_ADDR;
+  s_framebuffers[1] = FB_ADDR + size;
+	
+#if LCD_PIXFORMAT==LCD_PIXFORMAT_ARGB8888
+  lcd = lcd_mem_bgra8888_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
+#else
+  lcd = lcd_mem_bgr565_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
+#endif /*LCD_PIXFORMAT*/
+	
+  return lcd;
+}
+
+
+```
+
+为了确保 lcd 移植代码正确，特别是颜色格式是正确的，我们写个小测序，验证一下红绿蓝三色显示正常：
+
+```c
+#include "awtk.h"
+lcd_t* lcd_impl_create(wh_t w, wh_t h);
+
+void lcd_test(void) {
+	rect_t r = rect_init(0, 0, 30, 30);
+	lcd_t* lcd = lcd_impl_create(lcdltdc.width, lcdltdc.height);
+	color_t red = color_init(0xff, 0, 0, 0xff);
+	color_t green  = color_init(0, 0xff, 0, 0xff);
+	color_t blue = color_init(0, 0, 0xff, 0xff);
+	color_t gray = color_init(0x80, 0x80, 0x80, 0xff);
+	
+	while(1) {
+		lcd_begin_frame(lcd, &r, LCD_DRAW_NORMAL);
+		lcd_set_fill_color(lcd, gray);
+		lcd_fill_rect(lcd, 0, 0, 30, 30);	
+		lcd_set_fill_color(lcd, red);
+		lcd_fill_rect(lcd, 0, 0, 10, 10);
+		lcd_set_fill_color(lcd, green);
+		lcd_fill_rect(lcd, 10, 10, 10, 10);
+		lcd_set_fill_color(lcd, blue);
+		lcd_fill_rect(lcd, 20, 20, 10, 10);
+		
+		lcd_end_frame(lcd);
+	}
+}
+
+int main(void)
+{
+ 	u32 total,free;
+	u8 t=0;	
+	u8 res=0;	
+	
+	Cache_Enable();            
+	MPU_Memory_Protection();   
+	HAL_Init();				        	
+	Stm32_Clock_Init(160,5,2,4);
+	delay_init(400);						
+	uart_init(115200);					
+	usmart_dev.init(200); 		  
+	LED_Init();								
+	KEY_Init();								
+	SDRAM_Init();             
+	LCD_Init();								
+  W25QXX_Init();				   	
+ 	my_mem_init(SRAMIN);		  
+	my_mem_init(SRAMEX);		  
+	my_mem_init(SRAMDTCM);		
+  POINT_COLOR=RED;
+	
+	LTDC_Display_Dir(1);
+	platform_prepare();
+	system_info_init(0, "app", NULL);
+	lcd_test();
+	
+}
+```
+
+编译：
+
+![](images/lcd_works_1.jpg)
+
+下载运行。如果开发板上出现以下界面，表示 lcd 正常工作了：
+
+![](images/lcd_works_2.jpg)
+
+如果颜色不正常，通常是 r 和 g 通道反了，请根据具体情况，使用不同的LCD创建函数：
+
+```c
+#if LCD_PIXFORMAT==LCD_PIXFORMAT_ARGB8888
+  lcd = lcd_mem_bgra8888_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
+#else
+  lcd = lcd_mem_bgr565_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
+#endif /*LCD_PIXFORMAT*/
+	 
+```
+
+### 8.2 初始化 systick
+
+systick 主要用于辅助实现定时器，底层驱动我也不熟悉， 可以参考delay_init实现 systick 的初始化。
+
+> awtk-port/sys_tick.c
+
+```c
+void sys_tick_init(int SYSCLK)
+{
+	u32 reload=SYSCLK * 1000;
+  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+	SysTick->CTRL|=SysTick_CTRL_TICKINT_Msk;
+	SysTick->LOAD=reload; 				
+	SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk;
+}	
+```
+
+在主函数中调用 sys\_tick\_init 初始化 systick，并写个测试验证一下 systick 是否工作。
+
+```
+void sys_tick_init(int SYSCLK);	
+int systick_test(void) {
+  int64_t start = get_time_ms64();
+  sleep_ms(1000);
+  int64_t end = get_time_ms64();
+  int64_t duration = end - start;
+  assert(duration == 1000);
+	
+	return duration;
+}
+
+int main(void)
+{
+ 	u32 total,free;
+	u8 t=0;	
+	u8 res=0;	
+	
+	Cache_Enable();                	
+	MPU_Memory_Protection();        
+	HAL_Init();				        		
+	Stm32_Clock_Init(160,5,2,4); 
+	//delay_init(400);						
+	uart_init(115200);						
+	usmart_dev.init(200); 		
+	LED_Init();								
+	KEY_Init();								
+	SDRAM_Init();      
+	LCD_Init();								
+  W25QXX_Init();				
+	LTDC_Display_Dir(1);
+	
+	sys_tick_init(400);
+	platform_prepare();
+	systick_test();	
+}
+
+```
+
+运行一下，如果没有触发 assert，说明 systick 没有问题了。如果有问题，请自行查找解决方案。
