@@ -200,7 +200,7 @@ Build Time Elapsed:  00:00:09
 后面写的硬件平台相关的代码，都会放到下面的文件中。这里先把框架写好，后面再来完善：
 
 ```
-assert.c  main_loop_impl.c  platform.c
+assert.c   lcd_impl.c  main_loop_impl.c  platform.c  sys_tick.c
 ```
 
 ### 7.1. assert.c 
@@ -293,14 +293,6 @@ void sys_tick_init(int SYSCLK)
 #include "base/timer.h"
 #include "tkc/platform.h"
 
-uint64_t get_time_ms64() {
-  return HAL_GetTick();
-}
-
-void sleep_ms(uint32_t ms) {
-  delay_ms(ms);
-}
-
 #define MEM2_MAX_SIZE 8 * 1024 * 1024
 #define MEM2_ADDR (uint8_t*)0XC0000000 + 2 * 2 * 480 * 800
 
@@ -309,6 +301,7 @@ ret_t platform_prepare(void) {
 	
   return RET_OK;
 }
+
 
 ```
 
