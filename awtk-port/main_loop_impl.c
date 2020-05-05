@@ -32,6 +32,8 @@
 #include "ltdc.h"
 #include "main_loop/main_loop_simple.h"
 
+lcd_t* lcd_impl_create(wh_t w, wh_t h);
+
 uint8_t platform_disaptch_input(main_loop_t* loop) {
 	/*TODO*/
 
@@ -39,7 +41,7 @@ uint8_t platform_disaptch_input(main_loop_t* loop) {
 }
 
 lcd_t* platform_create_lcd(wh_t w, wh_t h) {
-  return NULL;
+	return lcd_impl_create(w, h);
 }
 
 #include "main_loop/main_loop_raw.inc"

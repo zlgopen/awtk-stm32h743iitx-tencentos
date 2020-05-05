@@ -372,6 +372,8 @@
 "..\obj\main_loop_impl.o"
 "..\obj\platform.o"
 "..\obj\sys_tick.o"
+"..\obj\assets-1m.o"
+"..\obj\demo_ui_app.o"
 --strict --scatter "..\OBJ\Template.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

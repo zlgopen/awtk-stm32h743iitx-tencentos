@@ -27,42 +27,9 @@
 ************************************************/
 
 #include "awtk.h"
-lcd_t* lcd_impl_create(wh_t w, wh_t h);
 
-void lcd_test(void) {
-	rect_t r = rect_init(0, 0, 30, 30);
-	lcd_t* lcd = lcd_impl_create(lcdltdc.width, lcdltdc.height);
-	color_t red = color_init(0xff, 0, 0, 0xff);
-	color_t green  = color_init(0, 0xff, 0, 0xff);
-	color_t blue = color_init(0, 0, 0xff, 0xff);
-	color_t gray = color_init(0x80, 0x80, 0x80, 0xff);
-	
-	while(1) {
-		lcd_begin_frame(lcd, &r, LCD_DRAW_NORMAL);
-		lcd_set_fill_color(lcd, gray);
-		lcd_fill_rect(lcd, 0, 0, 30, 30);	
-		lcd_set_fill_color(lcd, red);
-		lcd_fill_rect(lcd, 0, 0, 10, 10);
-		lcd_set_fill_color(lcd, green);
-		lcd_fill_rect(lcd, 10, 10, 10, 10);
-		lcd_set_fill_color(lcd, blue);
-		lcd_fill_rect(lcd, 20, 20, 10, 10);
-		
-		lcd_end_frame(lcd);
-	}
-}
-
-void sys_tick_init(int SYSCLK);
-
-int systick_test(void) {
-  int64_t start = get_time_ms64();
-  sleep_ms(1000);
-  int64_t end = get_time_ms64();
-  int64_t duration = end - start;
-  assert(duration == 1000);
-	
-	return duration;
-}
+extern void sys_tick_init(int SYSCLK);
+extern int gui_app_start(int lcd_w, int lcd_h);
 
 int main(void)
 {
@@ -85,13 +52,8 @@ int main(void)
 	LTDC_Display_Dir(1);
 	
 	sys_tick_init(400);
-	platform_prepare();
-	systick_test();	
-
-	LTDC_Display_Dir(1);
-	platform_prepare();
-	system_info_init(0, "app", NULL);
-	lcd_test();
+	
+	gui_app_start(lcdltdc.width, lcdltdc.height);
 	
 	LCD_ShowString(30,50,200,16,16,"Apollo STM32H7"); 
 	LCD_ShowString(30,70,200,16,16,"FATFS TEST");	

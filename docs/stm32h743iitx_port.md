@@ -506,3 +506,89 @@ int main(void)
 ```
 
 运行一下，如果没有触发 assert，说明 systick 没有问题了。如果有问题，请自行查找解决方案。
+
+
+
+## 9. 加入应用程序及资源
+
+现在我们来加入应用程序的代码和资源，这里我们使用 demo_basic.c 和 assets-mini.c，创建一个分组 awtk-app，并将下面的文件加入：
+
+```
+awtk/demos/demo_ui_app.c
+awtk/demos/assets-1m.c
+```
+
+如下图所示：
+
+![](images/add_app.jpg)
+
+修改main.c，调用gui入口函数：
+
+```c
+#include "awtk.h"
+
+extern void sys_tick_init(int SYSCLK);
+extern int gui_app_start(int lcd_w, int lcd_h);
+
+int main(void)
+{
+ 	u32 total,free;
+	u8 t=0;	
+	u8 res=0;	
+	
+	Cache_Enable();                	
+	MPU_Memory_Protection();        
+	HAL_Init();				        		
+	Stm32_Clock_Init(160,5,2,4); 
+	//delay_init(400);						
+	uart_init(115200);						
+	usmart_dev.init(200); 		
+	LED_Init();								
+	KEY_Init();								
+	SDRAM_Init();      
+	LCD_Init();								
+  W25QXX_Init();				
+	LTDC_Display_Dir(1);
+	
+	sys_tick_init(400);
+	
+	gui_app_start(lcdltdc.width, lcdltdc.height);
+
+	return 0;
+}	
+```
+
+## 10. 问题诊断
+
+编译运行，发现屏幕没有反应。不要惊讶，事情通常没有这么顺利的，根据以前的经验，问题有两个来源：
+
+* 栈空间不够。
+* 堆空间不够。
+
+### 10.1 调整 Stack_Size
+
+STM32H743 的 Stack_Size 是在文件 startup_stm32h743xx.s 中定义的，我们把它从 1K 改为 8K:
+
+```c
+; Amount of memory (in bytes) allocated for Stack
+; Tailor this value to your application needs
+; <h> Stack Configuration
+;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
+; </h>
+
+Stack_Size      EQU     0x00008000
+```
+
+重新编译运行，显示正常了:
+
+![](images/app_works.jpg)
+
+## 11. 实现输入事情
+
+### 11.1 实现按键事件
+
+> 后续再弄
+
+### 11.2 实现触屏事件
+
+> 后续再弄

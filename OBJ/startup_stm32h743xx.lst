@@ -57,9 +57,9 @@ ARM Macro Assembler    Page 1
    35 00000000         ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
    36 00000000         ; </h>
    37 00000000         
-   38 00000000 00000400 
+   38 00000000 00006000 
                        Stack_Size
-                               EQU              0x00000400
+                               EQU              0x00006000
    39 00000000         
    40 00000000                 AREA             STACK, NOINIT, READWRITE, ALIGN
 =3
@@ -71,18 +71,18 @@ ARM Macro Assembler    Page 2
 
    41 00000000         Stack_Mem
                                SPACE            Stack_Size
-   42 00000400         __initial_sp
-   43 00000400         
-   44 00000400         
-   45 00000400         ; <h> Heap Configuration
-   46 00000400         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
-   47 00000400         ; </h>
-   48 00000400         
-   49 00000400 00000200 
+   42 00006000         __initial_sp
+   43 00006000         
+   44 00006000         
+   45 00006000         ; <h> Heap Configuration
+   46 00006000         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   47 00006000         ; </h>
+   48 00006000         
+   49 00006000 00000200 
                        Heap_Size
                                EQU              0x00000200
-   50 00000400         
-   51 00000400                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
+   50 00006000         
+   51 00006000                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
 3
    52 00000000         __heap_base
    53 00000000         Heap_Mem
@@ -1277,7 +1277,7 @@ ARM Macro Assembler    Page 20
               00000000 
               00000000 
               00000000 
-              00000400 
+              00006000 
               00000200 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M7.fp.dp --apcs=
@@ -1309,7 +1309,7 @@ Symbol: Stack_Mem
       At line 603 in file ..\CORE\startup_stm32h743xx.s
       At line 605 in file ..\CORE\startup_stm32h743xx.s
 
-__initial_sp 00000400
+__initial_sp 00006000
 
 Symbol: __initial_sp
    Definitions
@@ -2908,7 +2908,7 @@ Symbol: Heap_Size
       At line 53 in file ..\CORE\startup_stm32h743xx.s
       At line 604 in file ..\CORE\startup_stm32h743xx.s
 
-Stack_Size 00000400
+Stack_Size 00006000
 
 Symbol: Stack_Size
    Definitions
