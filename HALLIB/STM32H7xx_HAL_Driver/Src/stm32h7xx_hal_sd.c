@@ -272,16 +272,11 @@ HAL_StatusTypeDef HAL_SD_Init(SD_HandleTypeDef *hsd)
     return HAL_ERROR;
   }
   /* Get Initial Card Speed from Card Status*/
-  CardStatus.UhsSpeedGrade=0;
-  CardStatus.UhsAllocationUnitSize=0;
-  
   speedgrade = CardStatus.UhsSpeedGrade;
   unitsize = CardStatus.UhsAllocationUnitSize;
-  
-  
   if ((hsd->SdCard.CardType == CARD_SDHC_SDXC) && ((speedgrade != 0U) || (unitsize != 0U)))
   {
-    hsd->SdCard.CardSpeed = CARD_HIGH_SPEED;
+    hsd->SdCard.CardSpeed = CARD_ULTRA_HIGH_SPEED;
   }
   else
   {
@@ -2001,7 +1996,7 @@ HAL_StatusTypeDef HAL_SD_ConfigWideBusOperation(SD_HandleTypeDef *hsd, uint32_t 
     else if (hsd->SdCard.CardSpeed == CARD_ULTRA_HIGH_SPEED)
     {
       /* UltraHigh speed SD card,user Clock div */
-      Init.ClockDiv = SDMMC_NSpeed_CLK_DIV;
+      Init.ClockDiv = hsd->Init.ClockDiv;
     }
     else if (hsd->SdCard.CardSpeed == CARD_HIGH_SPEED)
     {

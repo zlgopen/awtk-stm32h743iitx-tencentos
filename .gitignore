@@ -35,13 +35,14 @@
 *.i*86
 *.x86_64
 *.hex
+*.crf
 
 # Debug files
 *.dSYM/
 *.su
 *.idb
 *.pdb
-
+*.axf
 # Kernel Module Compile Results
 *.mod*
 *.cmd
@@ -50,3 +51,4 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+awtk
