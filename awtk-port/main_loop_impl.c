@@ -39,10 +39,10 @@ static ret_t platform_disaptch_touch_events(main_loop_t* loop) {
 
   tp_dev.scan(0);
 
-  x = tp_dev.x[0];
-  y = tp_dev.y[0];
+  x = tp_dev.y[0];
+  y = lcdltdc.height - tp_dev.x[0];
 
-  if (tp_dev.sta & 1) {
+  if (tp_dev.sta & 1) {		
 		if (x < lcdltdc.width && y < lcdltdc.height) {
 			main_loop_post_pointer_event(loop, TRUE, x, y);
 		}

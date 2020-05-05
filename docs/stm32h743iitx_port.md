@@ -631,4 +631,89 @@ static ret_t platform_disaptch_input(main_loop_t* loop) {
 
 ### 11.2 实现触屏事件
 
-> 后续再弄
+从下面的例子中，我们可以拿到触摸屏的驱动代码。
+
+```
+4，程序源码、2，标准例程-HAL 库版本、实验 31 触摸屏实验、HARDWARE\TOUCH
+```
+
+我们把摸屏的驱动代码加入到项目中：
+
+* 加入相关文件。
+* 增加 include 路径。
+* 调用初始化代码。
+
+加触屏事件转换为 AWTK 的 pointer 事件：
+
+```c
+static ret_t platform_disaptch_touch_events(main_loop_t* loop) {
+  int x = 0;
+  int y = 0;
+
+  tp_dev.scan(0);
+
+  x = tp_dev.y[0];
+  y = lcdltdc.height - tp_dev.x[0];
+
+  if (tp_dev.sta & 1) {		
+		if (x < lcdltdc.width && y < lcdltdc.height) {
+			main_loop_post_pointer_event(loop, TRUE, x, y);
+		}
+  } else {
+    main_loop_post_pointer_event(loop, FALSE, x, y);
+  }
+
+  return RET_OK;
+}
+
+static ret_t platform_disaptch_input(main_loop_t* loop) {
+	platform_disaptch_key_events(loop);
+	platform_disaptch_touch_events(loop);
+	
+  return RET_OK;
+}
+```
+
+运行测试，发现读不到触屏事件，仔细分析后，发现是前面去掉了delay_init，导致delay函数无效。
+
+重新实现一个简化版的delay函数(我对底层不懂，是否正确请自行判断)：
+
+```c
+static u32 fac_us=0;					
+
+void delay_init(u16 SYSCLK)
+{
+	fac_us=SYSCLK;						   
+}								    
+
+void delay_us(u32 nus)
+{		
+	u32 ticks;
+	u32 told,tnow,tcnt=0;
+	u32 reload=SysTick->LOAD;			
+	ticks=nus*fac_us; 						
+
+	told=SysTick->VAL;        				
+	while(1)
+	{
+		tnow=SysTick->VAL;	
+		if(tnow!=told)
+		{	    
+			if(tnow<told)tcnt+=told-tnow;	
+			else tcnt+=reload-tnow+told;	    
+			told=tnow;
+			if(tcnt>=ticks)break;		
+		}  
+	};
+						    
+}  
+
+void delay_ms(u16 nms)
+{	
+	delay_us((u32)(nms*1000));		
+}
+
+```
+
+编译运行，一切正常。
+
