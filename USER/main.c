@@ -15,6 +15,7 @@
 #include "nand.h"    
 #include "ftl.h"  
 #include "ff.h"
+#include "touch.h"
 #include "exfuns.h"
 /************************************************
  ALIENTEK 阿波罗STM32H7开发板 实验42
@@ -41,7 +42,7 @@ int main(void)
 	MPU_Memory_Protection();        
 	HAL_Init();				        		
 	Stm32_Clock_Init(160,5,2,4); 
-	//delay_init(400);						
+	delay_init(400);						
 	uart_init(115200);						
 	usmart_dev.init(200); 		
 	LED_Init();								
@@ -49,9 +50,12 @@ int main(void)
 	SDRAM_Init();      
 	LCD_Init();								
   W25QXX_Init();				
-	LTDC_Display_Dir(1);
+	LTDC_Display_Dir(1);	
 	
 	sys_tick_init(400);
+	tp_dev.init();
+	
+	sleep_ms(500);
 	
 	gui_app_start(lcdltdc.width, lcdltdc.height);
 	

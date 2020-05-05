@@ -29,16 +29,66 @@
 #include "sdram.h"
 #include "malloc.h"
 #include "string.h"
-#include "ltdc.h"
+#include "touch.h"
 #include "main_loop/main_loop_simple.h"
 
-lcd_t* lcd_impl_create(wh_t w, wh_t h);
 
-uint8_t platform_disaptch_input(main_loop_t* loop) {
-	/*TODO*/
+static ret_t platform_disaptch_touch_events(main_loop_t* loop) {
+  int x = 0;
+  int y = 0;
 
-  return 0;
+  tp_dev.scan(0);
+
+  x = tp_dev.x[0];
+  y = tp_dev.y[0];
+
+  if (tp_dev.sta & 1) {
+		if (x < lcdltdc.width && y < lcdltdc.height) {
+			main_loop_post_pointer_event(loop, TRUE, x, y);
+		}
+  } else {
+    main_loop_post_pointer_event(loop, FALSE, x, y);
+  }
+
+  return RET_OK;
 }
+
+#define MAX_KEYS_NR 3
+static bool_t s_key_pressed[MAX_KEYS_NR];
+static int s_key_map[MAX_KEYS_NR] = {
+	TK_KEY_TAB,/*move focus*/
+	TK_KEY_RETURN,/*activate*/
+	TK_KEY_F3/*back*/
+};
+
+static ret_t platform_disaptch_key_events(main_loop_t* loop) {
+  uint8_t value = KEY_Scan(0);
+
+	if(value > 0) {
+		int key = value - 1;
+		s_key_pressed[key] = TRUE;
+		main_loop_post_key_event(loop, TRUE, s_key_map[key]);
+	} else {
+		int i = 0;
+		for (i = 0; i < MAX_KEYS_NR; i++) {
+			if(s_key_pressed[i]) {
+				s_key_pressed[i] = FALSE;
+				main_loop_post_key_event(loop, FALSE, s_key_map[i]);
+			}
+		}
+	}
+
+  return RET_OK;
+}
+
+static ret_t platform_disaptch_input(main_loop_t* loop) {
+	platform_disaptch_key_events(loop);
+	platform_disaptch_touch_events(loop);
+	
+  return RET_OK;
+}
+
+extern lcd_t* lcd_impl_create(wh_t w, wh_t h);
 
 lcd_t* platform_create_lcd(wh_t w, wh_t h) {
 	return lcd_impl_create(w, h);

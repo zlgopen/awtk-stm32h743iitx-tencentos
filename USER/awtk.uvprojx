@@ -336,7 +336,7 @@
               <MiscControls>--gnu</MiscControls>
               <Define>USE_HAL_DRIVER, STM32H743xx,MPL_LOG_NDEBUG=1,EMPL,MPU9250,EMPL_TARGET_STM32F4,HAS_AWTK_CONFIG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HALLIB\STM32H7xx_HAL_Driver\Inc;..\USMART;..\MALLOC;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\TIMER;..\HARDWARE\MPU;..\HARDWARE\LCD;..\HARDWARE\SDRAM;..\HARDWARE\24CXX;..\HARDWARE\IIC;..\HARDWARE\PCF8574;..\HARDWARE\QSPI;..\HARDWARE\W25QXX;..\HARDWARE\SPI;..\HARDWARE\SDMMC;..\HARDWARE\NAND;..\HARDWARE\QSPI;..\HARDWARE\W25QXX;..\FATFS\exfuns;..\FATFS\source;..\awtk\src\ext_widgets;..\awtk;..\awtk\src;..\awtk\3rd;..\awtk\3rd\nanovg\base;..\awtk\3rd\nanovg;..\awtk\3rd\agge;..\awtk\3rd\libunibreak;..\awtk-port</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HALLIB\STM32H7xx_HAL_Driver\Inc;..\USMART;..\MALLOC;..\HARDWARE\TOUCH;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\TIMER;..\HARDWARE\MPU;..\HARDWARE\LCD;..\HARDWARE\SDRAM;..\HARDWARE\24CXX;..\HARDWARE\IIC;..\HARDWARE\PCF8574;..\HARDWARE\QSPI;..\HARDWARE\W25QXX;..\HARDWARE\SPI;..\HARDWARE\SDMMC;..\HARDWARE\NAND;..\HARDWARE\QSPI;..\HARDWARE\W25QXX;..\FATFS\exfuns;..\FATFS\source;..\awtk\src\ext_widgets;..\awtk;..\awtk\src;..\awtk\3rd;..\awtk\3rd\nanovg\base;..\awtk\3rd\nanovg;..\awtk\3rd\agge;..\awtk\3rd\libunibreak;..\awtk-port</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -669,6 +669,31 @@
               <FileName>w25qxx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\W25QXX\w25qxx.c</FilePath>
+            </File>
+            <File>
+              <FileName>ctiic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\TOUCH\ctiic.c</FilePath>
+            </File>
+            <File>
+              <FileName>ft5206.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\TOUCH\ft5206.c</FilePath>
+            </File>
+            <File>
+              <FileName>gt9147.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\TOUCH\gt9147.c</FilePath>
+            </File>
+            <File>
+              <FileName>touch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\TOUCH\touch.c</FilePath>
+            </File>
+            <File>
+              <FileName>ott2001a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\TOUCH\ott2001a.c</FilePath>
             </File>
           </Files>
         </Group>

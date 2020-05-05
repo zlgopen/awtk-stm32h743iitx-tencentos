@@ -541,7 +541,7 @@ int main(void)
 	KEY_Init();								
 	SDRAM_Init();      
 	LCD_Init();								
-  W25QXX_Init();				
+ 	W25QXX_Init();				
 	LTDC_Display_Dir(1);
 	
 	sys_tick_init(400);
@@ -591,7 +591,43 @@ Stack_Size      EQU     0x00008000
 
 ### 11.1 实现按键事件
 
-> 后续再弄
+按键事件通过 platform\_disaptch\_input 分发。这块开发板，只有 3 个按键公应用程序使用，我们把它映射到 tab、return 和 f3 几个键上，方便在没有触屏的情况下，也可实现 demoui 窗口之间的导航。
+
+```c
+#define MAX_KEYS_NR 3
+static bool_t s_key_pressed[MAX_KEYS_NR];
+static int s_key_map[MAX_KEYS_NR] = {
+	TK_KEY_TAB,/*move focus*/
+	TK_KEY_RETURN,/*activate*/
+	TK_KEY_F3/*back*/
+};
+
+static ret_t platform_disaptch_key_events(main_loop_t* loop) {
+  uint8_t value = KEY_Scan(0);
+
+	if(value > 0) {
+		int key = value - 1;
+		s_key_pressed[key] = TRUE;
+		main_loop_post_key_event(loop, TRUE, s_key_map[key]);
+	} else {
+		int i = 0;
+		for (i = 0; i < MAX_KEYS_NR; i++) {
+			if(s_key_pressed[i]) {
+				s_key_pressed[i] = FALSE;
+				main_loop_post_key_event(loop, FALSE, s_key_map[i]);
+			}
+		}
+	}
+
+  return RET_OK;
+}
+
+static ret_t platform_disaptch_input(main_loop_t* loop) {
+	platform_disaptch_key_events(loop);
+	
+  return RET_OK;
+}
+```
 
 ### 11.2 实现触屏事件
 
