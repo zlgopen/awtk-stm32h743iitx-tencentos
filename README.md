@@ -16,7 +16,7 @@ cd awtk-stm32h743iitx-tencentos
 git clone https://github.com/zlgopen/awtk.git
 ```
 
-2. 用 keil 打开 awtk.uvprojx
+2. 用 keil 打开 USER/awtk.uvprojx
 
 ## 文档
 
