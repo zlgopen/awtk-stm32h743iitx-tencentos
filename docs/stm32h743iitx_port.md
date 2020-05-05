@@ -6,7 +6,7 @@
 在移植的时候，不管是什么板子，拿到板子的资料后，先找一个带有显示功能的最简示例。以这个最简示例为模板，加入 AWTK 相关代码再进行移植。本文中使用开发板提供的 SD 卡的例子，具体位置在：
 
 ```
-阿波罗STM32H743 资料盘(A盘)\4，程序源码\2，标准例程-HAL库版本\实验42 FATFS实验
+阿波罗 STM32H743 资料盘 (A 盘）\4，程序源码、2，标准例程-HAL 库版本、实验 42 FATFS 实验
 ```
 
 > 这是一个 Keil 工程，在移植之前，先确保该工程能够正常编译、下载和运行。
@@ -160,8 +160,7 @@ AWTK 的源文件很多，而且不同的平台，加入的文件有所不同，
 
 ![](images/settings.jpg)
 
-
-修改 stm32h7xx_it.c，去掉SysTick_Handler的定义。
+修改 stm32h7xx_it.c，去掉 SysTick_Handler 的定义。
 
 ```c
 #if 0
@@ -177,7 +176,6 @@ void SysTick_Handler(void)
 }
 #endif
 ```
-
 
 ## 7. 加入硬件平台相关的文件
 
@@ -267,7 +265,7 @@ lcd_t* platform_create_lcd(wh_t w, wh_t h) {
 
 ### 7.4. systick.c
 
-用于启动systick，提供OS调度和时间相关功能。
+用于启动 systick，提供 OS 调度和时间相关功能。
 
 ```c
 void sys_tick_init(int SYSCLK)
@@ -320,7 +318,6 @@ ret_t platform_prepare(void) {
 
 再编译一下，发现编译成功了。当然，只是编译成功而已，并不能真正运行起来，具体移植工作，还有没开始呢。
 
-
 ## 8. 编写平台相关的代码
 
 ### 8.1 实现 lcd
@@ -364,7 +361,6 @@ lcd_t* lcd_impl_create(wh_t w, wh_t h) {
 	
   return lcd;
 }
-
 
 ```
 
@@ -436,7 +432,7 @@ int main(void)
 
 ![](images/lcd_works_2.jpg)
 
-如果颜色不正常，通常是 r 和 g 通道反了，请根据具体情况，使用不同的LCD创建函数：
+如果颜色不正常，通常是 r 和 g 通道反了，请根据具体情况，使用不同的 LCD 创建函数：
 
 ```c
 #if LCD_PIXFORMAT==LCD_PIXFORMAT_ARGB8888
@@ -449,7 +445,7 @@ int main(void)
 
 ### 8.2 初始化 systick
 
-systick 主要用于辅助实现定时器，底层驱动我也不熟悉， 可以参考delay_init实现 systick 的初始化。
+systick 主要用于辅助实现定时器，底层驱动我也不熟悉， 可以参考 delay_init 实现 systick 的初始化。
 
 > awtk-port/sys_tick.c
 
@@ -507,11 +503,9 @@ int main(void)
 
 运行一下，如果没有触发 assert，说明 systick 没有问题了。如果有问题，请自行查找解决方案。
 
-
-
 ## 9. 加入应用程序及资源
 
-现在我们来加入应用程序的代码和资源，这里我们使用 demo_basic.c 和 assets-mini.c，创建一个分组 awtk-app，并将下面的文件加入：
+现在我们来加入应用程序的代码和资源，这里我们使用 demo_ui_app.c 和 assets-1m.c，创建一个分组 awtk-app，并将下面的文件加入：
 
 ```
 awtk/demos/demo_ui_app.c
@@ -522,7 +516,7 @@ awtk/demos/assets-1m.c
 
 ![](images/add_app.jpg)
 
-修改main.c，调用gui入口函数：
+修改 main.c，调用 gui 入口函数：
 
 ```c
 #include "awtk.h"
@@ -579,8 +573,18 @@ STM32H743 的 Stack_Size 是在文件 startup_stm32h743xx.s 中定义的，我�
 Stack_Size      EQU     0x00008000
 ```
 
-重新编译运行，显示正常了:
+### 10.2 调整 Heap_Size 
 
+把 MEM1\_MAX\_SIZE 调小一点，否则全局变量不够用。
+
+```c
+//#define MEM1_MAX_SIZE			448*1024  		
+#define MEM1_MAX_SIZE			100*1024  		
+```
+
+> 其它内存大小，请根据需要自行调整。
+
+重新编译运行，显示正常了：
 ![](images/app_works.jpg)
 
 ## 11. 实现输入事情

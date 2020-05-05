@@ -36,7 +36,8 @@
 
 //mem1内存参数设定.mem1是H7内部的AXI内存.
 #define MEM1_BLOCK_SIZE			64  	  						//内存块大小为64字节
-#define MEM1_MAX_SIZE			448*1024  						//最大管理内存 448K,H7的AXI内存总共512KB
+//#define MEM1_MAX_SIZE			448*1024  						//最大管理内存 448K,H7的AXI内存总共512KB
+#define MEM1_MAX_SIZE			100*1024  						//最大管理内存 448K,H7的AXI内存总共512KB
 #define MEM1_ALLOC_TABLE_SIZE	MEM1_MAX_SIZE/MEM1_BLOCK_SIZE 	//内存表大小
 
 //mem2内存参数设定.mem2是外部的SDRAM内存

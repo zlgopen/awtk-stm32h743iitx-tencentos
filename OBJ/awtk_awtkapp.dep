@@ -1,5 +1,5 @@
 Dependencies for Project 'awtk', Target 'awtkapp': (DO NOT MODIFY !)
-F (.\main.c)(0x5EB0E197)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\main.o --depend ..\obj\main.d)
+F (.\main.c)(0x5EB0F085)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\main.o --depend ..\obj\main.d)
 I (..\SYSTEM\sys\sys.h)(0x5EB0DA2A)
 I (..\USER\stm32h7xx.h)(0x5EB0DA2A)
 I (..\USER\stm32h743xx.h)(0x5EB0DA2A)
@@ -104,7 +104,7 @@ I (..\USMART\usmart_str.h)(0x5EB0DA2A)
 I (..\HARDWARE\PCF8574\pcf8574.h)(0x5EB0DA2A)
 I (..\HARDWARE\IIC\myiic.h)(0x5EB0DA2A)
 I (..\HARDWARE\MPU\mpu.h)(0x5EB0DA2A)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 I (..\HARDWARE\W25QXX\w25qxx.h)(0x5EB0DA2A)
 I (..\HARDWARE\SDMMC\sdmmc_sdcard.h)(0x5EB0DA2A)
 I (..\HARDWARE\NAND\nand.h)(0x5EB0DA2A)
@@ -618,7 +618,7 @@ I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hcd.h)(0x5EB0DA2A)
 F (..\CORE\core_cm7.h)(0x5EB0DA2A)()
 F (..\CORE\cmsis_armcc.h)(0x5EB0DA2A)()
 F (..\CORE\cmsis_compiler.h)(0x5EB0DA2A)()
-F (..\CORE\startup_stm32h743xx.s)(0x5EB0E2B8)(--cpu Cortex-M7.fp.dp -g --apcs=interwork -I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 524" --pd "STM32H743xx SETA 1"--list ..\obj\startup_stm32h743xx.lst --xref -o ..\obj\startup_stm32h743xx.o --depend ..\obj\startup_stm32h743xx.d)
+F (..\CORE\startup_stm32h743xx.s)(0x5EB11EB3)(--cpu Cortex-M7.fp.dp -g --apcs=interwork -I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 524" --pd "STM32H743xx SETA 1"--list ..\obj\startup_stm32h743xx.lst --xref -o ..\obj\startup_stm32h743xx.o --depend ..\obj\startup_stm32h743xx.d)
 F (..\SYSTEM\delay\delay.c)(0x5EB0DA2A)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\delay.o --depend ..\obj\delay.d)
 I (..\SYSTEM\delay\delay.h)(0x5EB0DA2A)
 I (..\SYSTEM\sys\sys.h)(0x5EB0DA2A)
@@ -4487,7 +4487,7 @@ I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h)(0x5EB0DA2A)
 I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h)(0x5EB0DA2A)
 I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hcd.h)(0x5EB0DA2A)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 I (..\HARDWARE\NAND\nand.h)(0x5EB0DA2A)
 I (..\SYSTEM\usart\usart.h)(0x5EB0DA2A)
 F (..\HARDWARE\NAND\nand.c)(0x5EB0DA2A)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\nand.o --depend ..\obj\nand.d)
@@ -4584,7 +4584,7 @@ I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h)(0x5EB0DA2A)
 I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h)(0x5EB0DA2A)
 I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hcd.h)(0x5EB0DA2A)
 I (..\SYSTEM\delay\delay.h)(0x5EB0DA2A)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 F (..\HARDWARE\NAND\nandtester.c)(0x5EB0DA2A)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\nandtester.o --depend ..\obj\nandtester.d)
 I (..\HARDWARE\NAND\nandtester.h)(0x5EB0DA2A)
 I (..\SYSTEM\sys\sys.h)(0x5EB0DA2A)
@@ -4682,7 +4682,7 @@ I (..\HARDWARE\NAND\nand.h)(0x5EB0DA2A)
 I (..\HARDWARE\NAND\ftl.h)(0x5EB0DA2A)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (..\SYSTEM\usart\usart.h)(0x5EB0DA2A)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 F (..\HARDWARE\QSPI\qspi.c)(0x5EB0DA2A)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\qspi.o --depend ..\obj\qspi.d)
 I (..\HARDWARE\QSPI\qspi.h)(0x5EB0DA2A)
 I (..\SYSTEM\sys\sys.h)(0x5EB0DA2A)
@@ -4874,7 +4874,7 @@ I (..\HARDWARE\QSPI\qspi.h)(0x5EB0DA2A)
 I (..\SYSTEM\delay\delay.h)(0x5EB0DA2A)
 I (..\SYSTEM\usart\usart.h)(0x5EB0DA2A)
 F (..\MALLOC\malloc.c)(0x5EB0DA2A)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\malloc.o --depend ..\obj\malloc.d)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 I (..\SYSTEM\sys\sys.h)(0x5EB0DA2A)
 I (..\USER\stm32h7xx.h)(0x5EB0DA2A)
 I (..\USER\stm32h743xx.h)(0x5EB0DA2A)
@@ -5064,7 +5064,7 @@ I (..\FATFS\source\ff.h)(0x5EB0DA2A)
 I (..\FATFS\source\integer.h)(0x5EB0DA2A)
 I (..\FATFS\source\ffconf.h)(0x5EB0DA2A)
 I (..\FATFS\exfuns\fattester.h)(0x5EB0DA2A)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 I (..\SYSTEM\usart\usart.h)(0x5EB0DA2A)
 F (..\FATFS\exfuns\fattester.c)(0x5EB0DA2A)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\fattester.o --depend ..\obj\fattester.d)
 I (..\FATFS\exfuns\fattester.h)(0x5EB0DA2A)
@@ -5167,7 +5167,7 @@ I (..\USMART\usmart.h)(0x5EB0DA2A)
 I (..\USMART\usmart_str.h)(0x5EB0DA2A)
 I (..\SYSTEM\usart\usart.h)(0x5EB0DA2A)
 I (..\FATFS\exfuns\exfuns.h)(0x5EB0DA2A)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 F (..\FATFS\source\diskio.c)(0x5EB0DA2A)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\diskio.o --depend ..\obj\diskio.d)
 I (..\FATFS\source\diskio.h)(0x5EB0DA2A)
@@ -5265,7 +5265,7 @@ I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h)(0x5EB0DA2A)
 I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h)(0x5EB0DA2A)
 I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hcd.h)(0x5EB0DA2A)
 I (..\HARDWARE\W25QXX\w25qxx.h)(0x5EB0DA2A)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 I (..\HARDWARE\NAND\nand.h)(0x5EB0DA2A)
 I (..\HARDWARE\NAND\ftl.h)(0x5EB0DA2A)
 F (..\FATFS\source\ff.c)(0x5EB0DA2A)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\ff.o --depend ..\obj\ff.d)
@@ -5369,7 +5369,7 @@ I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd.h)(0x5EB0DA2A)
 I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_ll_usb.h)(0x5EB0DA2A)
 I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_pcd_ex.h)(0x5EB0DA2A)
 I (..\HALLIB\STM32H7xx_HAL_Driver\Inc\stm32h7xx_hal_hcd.h)(0x5EB0DA2A)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 F (..\FATFS\source\ffunicode.c)(0x5EB0DA2A)(-c --cpu Cortex-M7.fp.dp -g -O0 --apcs=interwork --split_sections -I ..\CORE -I ..\USER -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HALLIB\STM32H7xx_HAL_Driver\Inc -I ..\USMART -I ..\MALLOC -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\TIMER -I ..\HARDWARE\MPU -I ..\HARDWARE\LCD -I ..\HARDWARE\SDRAM -I ..\HARDWARE\24CXX -I ..\HARDWARE\IIC -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\HARDWARE\SPI -I ..\HARDWARE\SDMMC -I ..\HARDWARE\NAND -I ..\HARDWARE\QSPI -I ..\HARDWARE\W25QXX -I ..\FATFS\exfuns -I ..\FATFS\source -I ..\awtk\src\ext_widgets -I ..\awtk -I ..\awtk\src -I ..\awtk\3rd -I ..\awtk\3rd\nanovg\base -I ..\awtk\3rd\nanovg -I ..\awtk\3rd\agge -I ..\awtk\3rd\libunibreak -I ..\awtk-port --gnu-I.\RTE\_awtkapp-IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32H743xx -DUSE_HAL_DRIVER -DSTM32H743xx -DMPL_LOG_NDEBUG="1" -DEMPL -DMPU9250 -DEMPL_TARGET_STM32F4 -DHAS_AWTK_CONFIG-o ..\obj\ffunicode.o --depend ..\obj\ffunicode.d)
 I (..\FATFS\source\ff.h)(0x5EB0DA2A)
 I (..\FATFS\source\integer.h)(0x5EB0DA2A)
@@ -19136,7 +19136,7 @@ I (..\HARDWARE\KEY\key.h)(0x5EB0DA2A)
 I (..\HARDWARE\LCD\ltdc.h)(0x5EB0DA2A)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (..\HARDWARE\SDRAM\sdram.h)(0x5EB0DA2A)
-I (..\MALLOC\malloc.h)(0x5EB0DA2A)
+I (..\MALLOC\malloc.h)(0x5EB11EB5)
 I (..\awtk\src\main_loop/main_loop_simple.h)(0x5EB0C5CB)
 I (..\awtk\src\base/idle.h)(0x5EB0C5C9)
 I (..\awtk\src\tkc/idle_manager.h)(0x5EB0C5CC)
