@@ -885,38 +885,38 @@ typedef DIR FF_DIR;
 ```c
 int main(void)
 {
-	Cache_Enable();                	
-	MPU_Memory_Protection();        
-	HAL_Init();				        		
-	Stm32_Clock_Init(160,5,2,4); 
-	delay_init(400);						
-	uart_init(115200);						
-	usmart_dev.init(200); 		
-	LED_Init();								
-	KEY_Init();								
-	SDRAM_Init();      
-	LCD_Init();								
-  W25QXX_Init();				
-	LTDC_Display_Dir(1);	
-	sys_tick_init(400);
-	
-	tp_dev.init();
-	
+  Cache_Enable();                 
+  MPU_Memory_Protection();        
+  HAL_Init();                   
+  Stm32_Clock_Init(160,5,2,4); 
+  delay_init(400);            
+  uart_init(115200);            
+  usmart_dev.init(200);     
+  LED_Init();               
+  KEY_Init();               
+  SDRAM_Init();      
+  LCD_Init();               
+  W25QXX_Init();        
+  LTDC_Display_Dir(1);  
+  sys_tick_init(400);
+  
+  tp_dev.init();
+  
   platform_prepare();
-		
+    
 
-	LCD_ShowString(30,130,200,16,16,"check sdcard");	      
- 	while(SD_Init())
-	{
-		LCD_ShowString(30,150,200,16,16,"SD Card Error!");
-		delay_ms(500);					
-		LCD_ShowString(30,150,200,16,16,"Please Check! ");
-		delay_ms(500);
-	}
-  LCD_ShowString(30,130,200,16,16,"check sdcard ok");	      
+  LCD_ShowString(30,130,200,16,16,"check sdcard");        
+  while(SD_Init())
+  {
+    LCD_ShowString(30,150,200,16,16,"SD Card Error!");
+    delay_ms(500);          
+    LCD_ShowString(30,150,200,16,16,"Please Check! ");
+    delay_ms(500);
+  }
+  LCD_ShowString(30,130,200,16,16,"check sdcard ok");       
   
   FTL_Init();
- 	exfuns_init();	
+  exfuns_init();  
   f_mount(fs[0],"0:",1);
 
   fs_test(os_fs());
@@ -924,9 +924,10 @@ int main(void)
   rtos_init();
   awtk_start_ui_thread();
   rtos_start();
-	
+  
   return 0;
 }
+
 ```
 
 编译运行，测试通过。
