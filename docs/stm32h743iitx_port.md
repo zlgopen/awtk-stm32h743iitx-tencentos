@@ -294,14 +294,18 @@ void sys_tick_init(int SYSCLK)
 #include "tkc/platform.h"
 
 #define MEM2_MAX_SIZE 8 * 1024 * 1024
-#define MEM2_ADDR (uint8_t*)0XC0000000 + 2 * 2 * 480 * 800
+#define MEM2_ADDR (uint8_t*)0XC0000000 + 2 * 1024 * 1024
 
 ret_t platform_prepare(void) {
-  tk_mem_init(MEM2_ADDR, MEM2_MAX_SIZE);
+  static bool_t inited = FALSE;
 	
+  if (!inited) {
+    inited = TRUE;
+    tk_mem_init(MEM2_ADDR, MEM2_MAX_SIZE);
+  }
+  
   return RET_OK;
 }
-
 
 ```
 
@@ -667,9 +671,9 @@ static ret_t platform_disaptch_input(main_loop_t* loop) {
 }
 ```
 
-运行测试，发现读不到触屏事件，仔细分析后，发现是前面去掉了delay_init，导致delay函数无效。
+运行测试，发现读不到触屏事件，仔细分析后，发现是前面去掉了 delay_init，导致 delay 函数无效。
 
-重新实现一个简化版的delay函数(我对底层不懂，是否正确请自行判断)：
+重新实现一个简化版的 delay 函数（我对底层不懂，是否正确请自行判断）：
 
 ```c
 static u32 fac_us=0;					
@@ -710,3 +714,138 @@ void delay_ms(u16 nms)
 
 编译运行，一切正常。
 
+## 12. 加入 tencentos
+
+> 如果不要 RTOS，可以忽略此段。
+
+* 加入 tencentos 相关文件。
+
+```
+TencentOS\arch\arm\arm-v7m\common\tos_cpu.c
+TencentOS\arch\arm\arm-v7m\common\tos_fault.c
+TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_c.c
+TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port.h
+TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_config.h
+TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+TencentOS\kernel\core\tos_event.c
+TencentOS\kernel\core\tos_fifo.c
+TencentOS\kernel\core\tos_global.c
+TencentOS\kernel\core\tos_mmblk.c
+TencentOS\kernel\core\tos_mmheap.c
+TencentOS\kernel\core\tos_msg.c
+TencentOS\kernel\core\tos_mutex.c
+TencentOS\kernel\core\tos_pend.c
+TencentOS\kernel\core\tos_queue.c
+TencentOS\kernel\core\tos_robin.c
+TencentOS\kernel\core\tos_sched.c
+TencentOS\kernel\core\tos_sem.c
+TencentOS\kernel\core\tos_sys.c
+TencentOS\kernel\core\tos_task.c
+TencentOS\kernel\core\tos_tick.c
+TencentOS\kernel\core\tos_time.c
+TencentOS\kernel\core\tos_timer.c
+TencentOS\kernel\pm\tos_pm.c
+TencentOS\kernel\pm\tos_tickless.c
+```
+
+* 增加包含的路径：
+
+```
+..\TencentOS\arch\arm\arm-v7m\common\include;..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc;..\TencentOS\kernel\core\include;..\TencentOS\kernel\hal\include;..\TencentOS\kernel\pm\include;..\TencentOS\TOS-CONFIG
+```
+
+* 在 stm32h7xx_it.c 中删除 PendSV_Handler
+
+```
+#if 0
+/**
+  * @brief  This function handles PendSVC exception.
+  * @param  None
+  * @retval None
+  */
+void PendSV_Handler(void)
+{
+}
+
+#endif
+```
+
+* 移除 raw\sys_tick_handler.c、cond_var_null.c 和 mutex_null.c
+
+* 增加下列文件到 awtk-port
+
+```
+awtk\src\platforms\raw\fs_os.c
+awtk\src\platforms\tos\mutex.c
+awtk\src\platforms\tos\rtos.c
+awtk\src\platforms\tos\semaphore.c
+awtk\src\platforms\tos\thread.c
+awtk\src\platforms\common\rtos.h
+awtk\src\platforms\common\sys_tick_handler.c
+```
+
+* 修改 main.c，在线程中启动 AWTK
+
+```c
+#include "tkc/thread.h"
+#include "platforms/common/rtos.h"
+
+extern void sleep_ms(int ms);
+extern void sys_tick_init(int SYSCLK);
+extern ret_t platform_prepare(void);
+extern void systick_enable_int(void);
+extern int gui_app_start(int lcd_w, int lcd_h);
+
+void* awtk_thread(void* args) {
+  gui_app_start(lcdltdc.width, lcdltdc.height);
+
+  return NULL;
+}
+
+static ret_t awtk_start_ui_thread(void) {
+  tk_thread_t* ui_thread = tk_thread_create(awtk_thread, NULL);
+  return_value_if_fail(ui_thread != NULL, RET_BAD_PARAMS);
+
+  tk_thread_set_priority(ui_thread, 3);
+  tk_thread_set_name(ui_thread, "awtk");
+  tk_thread_set_stack_size(ui_thread, 0x8000);
+
+  return tk_thread_start(ui_thread);
+}
+
+int main(void)
+{
+ 	u32 total,free;
+	u8 t=0;	
+	u8 res=0;	
+	
+	Cache_Enable();                	
+	MPU_Memory_Protection();        
+	HAL_Init();				        		
+	Stm32_Clock_Init(160,5,2,4); 
+	delay_init(400);						
+	uart_init(115200);						
+	usmart_dev.init(200); 		
+	LED_Init();								
+	KEY_Init();								
+	SDRAM_Init();      
+	LCD_Init();								
+  W25QXX_Init();				
+	LTDC_Display_Dir(1);	
+	sys_tick_init(400);
+	
+	tp_dev.init();
+	
+  platform_prepare();
+		
+  rtos_init();
+  awtk_start_ui_thread();
+  rtos_start();
+
+	return 0;
+}
+```
+
+编译运行，一切正常。
+
+> GUI 线程的栈不小于 0x8000，否则可能出现莫名奇妙的错误。

@@ -27,10 +27,31 @@
  作者：正点原子 @ALIENTEK
 ************************************************/
 
-#include "awtk.h"
+#include "tkc/thread.h"
+#include "platforms/common/rtos.h"
 
+extern void sleep_ms(int ms);
 extern void sys_tick_init(int SYSCLK);
+extern ret_t platform_prepare(void);
+extern void systick_enable_int(void);
 extern int gui_app_start(int lcd_w, int lcd_h);
+
+void* awtk_thread(void* args) {
+  gui_app_start(lcdltdc.width, lcdltdc.height);
+
+  return NULL;
+}
+
+static ret_t awtk_start_ui_thread(void) {
+  tk_thread_t* ui_thread = tk_thread_create(awtk_thread, NULL);
+  return_value_if_fail(ui_thread != NULL, RET_BAD_PARAMS);
+
+  tk_thread_set_priority(ui_thread, 3);
+  tk_thread_set_name(ui_thread, "awtk");
+  tk_thread_set_stack_size(ui_thread, 0x8000);
+
+  return tk_thread_start(ui_thread);
+}
 
 int main(void)
 {
@@ -51,13 +72,15 @@ int main(void)
 	LCD_Init();								
   W25QXX_Init();				
 	LTDC_Display_Dir(1);	
-	
 	sys_tick_init(400);
+	
 	tp_dev.init();
 	
-	sleep_ms(500);
-	
-	gui_app_start(lcdltdc.width, lcdltdc.height);
+  platform_prepare();
+		
+  rtos_init();
+  awtk_start_ui_thread();
+  rtos_start();
 	
 	LCD_ShowString(30,50,200,16,16,"Apollo STM32H7"); 
 	LCD_ShowString(30,70,200,16,16,"FATFS TEST");	

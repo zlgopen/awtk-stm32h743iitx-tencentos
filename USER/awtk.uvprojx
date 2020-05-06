@@ -336,7 +336,7 @@
               <MiscControls>--gnu</MiscControls>
               <Define>USE_HAL_DRIVER, STM32H743xx,MPL_LOG_NDEBUG=1,EMPL,MPU9250,EMPL_TARGET_STM32F4,HAS_AWTK_CONFIG</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HALLIB\STM32H7xx_HAL_Driver\Inc;..\USMART;..\MALLOC;..\HARDWARE\TOUCH;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\TIMER;..\HARDWARE\MPU;..\HARDWARE\LCD;..\HARDWARE\SDRAM;..\HARDWARE\24CXX;..\HARDWARE\IIC;..\HARDWARE\PCF8574;..\HARDWARE\QSPI;..\HARDWARE\W25QXX;..\HARDWARE\SPI;..\HARDWARE\SDMMC;..\HARDWARE\NAND;..\HARDWARE\QSPI;..\HARDWARE\W25QXX;..\FATFS\exfuns;..\FATFS\source;..\awtk\src\ext_widgets;..\awtk;..\awtk\src;..\awtk\3rd;..\awtk\3rd\nanovg\base;..\awtk\3rd\nanovg;..\awtk\3rd\agge;..\awtk\3rd\libunibreak;..\awtk-port</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HALLIB\STM32H7xx_HAL_Driver\Inc;..\USMART;..\MALLOC;..\HARDWARE\TOUCH;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\TIMER;..\HARDWARE\MPU;..\HARDWARE\LCD;..\HARDWARE\SDRAM;..\HARDWARE\24CXX;..\HARDWARE\IIC;..\HARDWARE\PCF8574;..\HARDWARE\QSPI;..\HARDWARE\W25QXX;..\HARDWARE\SPI;..\HARDWARE\SDMMC;..\HARDWARE\NAND;..\HARDWARE\QSPI;..\HARDWARE\W25QXX;..\FATFS\exfuns;..\FATFS\source;..\awtk\src\ext_widgets;..\awtk;..\awtk\src;..\awtk\3rd;..\awtk\3rd\nanovg\base;..\awtk\3rd\nanovg;..\awtk\3rd\agge;..\awtk\3rd\libunibreak;..\awtk-port;.\User;.\Libraries\CMSIS;.\Libraries\STM32F10x_StdPeriph_Driver\inc;.\APP\led;.\Public;.\APP\beep;.\APP\smg;.\APP\key;.\APP\exti;.\APP\time;.\APP\pwm;.\APP\iwdg;.\APP\wwdg;.\APP\input;.\APP\touch_key;.\APP\wkup;.\APP\adc;.\APP\adc_temp;.\APP\dac;.\APP\pwm_dac;.\APP\dma;.\APP\rtc;.\APP\24Cxx;.\APP\iic;.\APP\ds18b20;.\APP\hwjs;.\APP\rs485;.\APP\can;.\APP\tftlcd;.\APP\spi;.\APP\nrf24l01;.\APP\dht11;.\APP\oled;.\APP\RC522;.\APP\Tetris;.\APP\ball;.\APP\touch;.\APP\snake;.\awtk\3rd;.\awtk\src;.\awtk-port;..\TencentOS\arch\arm\arm-v7m\common\include;..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc;..\TencentOS\kernel\core\include;..\TencentOS\kernel\hal\include;..\TencentOS\kernel\pm\include;..\TencentOS\TOS-CONFIG</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2046,11 +2046,6 @@
               <FilePath>..\awtk\src\platforms\raw\fs_os.c</FilePath>
             </File>
             <File>
-              <FileName>mutex_null.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\awtk\src\platforms\raw\mutex_null.c</FilePath>
-            </File>
-            <File>
               <FileName>emojidef.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\awtk\3rd\libunibreak\emojidef.c</FilePath>
@@ -2300,16 +2295,6 @@
               <FileType>1</FileType>
               <FilePath>..\awtk\src\ext_widgets\features\draggable.c</FilePath>
             </File>
-            <File>
-              <FileName>cond_var_null.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\awtk\src\platforms\raw\cond_var_null.c</FilePath>
-            </File>
-            <File>
-              <FileName>sys_tick_handler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\awtk\src\platforms\raw\sys_tick_handler.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -2345,6 +2330,36 @@
               <FileType>1</FileType>
               <FilePath>..\awtk-port\sys_tick.c</FilePath>
             </File>
+            <File>
+              <FileName>mutex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\platforms\tos\mutex.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtos.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\platforms\tos\rtos.c</FilePath>
+            </File>
+            <File>
+              <FileName>semaphore.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\platforms\tos\semaphore.c</FilePath>
+            </File>
+            <File>
+              <FileName>thread.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\platforms\tos\thread.c</FilePath>
+            </File>
+            <File>
+              <FileName>rtos.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\awtk\src\platforms\common\rtos.h</FilePath>
+            </File>
+            <File>
+              <FileName>sys_tick_handler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\platforms\common\sys_tick_handler.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -2359,6 +2374,136 @@
               <FileName>demo_ui_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\awtk\demos\demo_ui_app.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>tecentos</GroupName>
+          <Files>
+            <File>
+              <FileName>tos_cpu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\arch\arm\arm-v7m\common\tos_cpu.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_fault.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\arch\arm\arm-v7m\common\tos_fault.c</FilePath>
+            </File>
+            <File>
+              <FileName>port_c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_c.c</FilePath>
+            </File>
+            <File>
+              <FileName>port.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port.h</FilePath>
+            </File>
+            <File>
+              <FileName>port_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>port_s.S</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S</FilePath>
+            </File>
+            <File>
+              <FileName>tos_event.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_event.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_global.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_global.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_mmblk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_mmblk.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_mmheap.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_mmheap.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_msg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_msg.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_mutex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_mutex.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_pend.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_pend.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_robin.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_robin.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_sched.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_sched.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_sem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_sem.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_sys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_sys.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_tick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_tick.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_time.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\core\tos_timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_pm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\pm\tos_pm.c</FilePath>
+            </File>
+            <File>
+              <FileName>tos_tickless.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\TencentOS\kernel\pm\tos_tickless.c</FilePath>
             </File>
           </Files>
         </Group>

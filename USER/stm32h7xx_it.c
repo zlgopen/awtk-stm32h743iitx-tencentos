@@ -137,6 +137,7 @@ void DebugMon_Handler(void)
 {
 }
 
+#if 0
 /**
   * @brief  This function handles PendSVC exception.
   * @param  None
@@ -145,6 +146,8 @@ void DebugMon_Handler(void)
 void PendSV_Handler(void)
 {
 }
+
+#endif
 
 #if 0
 /**

@@ -1,0 +1,445 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 EXPORT           port_int_disable
+    2 00000000                 EXPORT           port_int_enable
+    3 00000000         
+    4 00000000                 EXPORT           port_cpsr_save
+    5 00000000                 EXPORT           port_cpsr_restore
+    6 00000000         
+    7 00000000                 EXPORT           port_sched_start
+    8 00000000                 EXPORT           port_context_switch
+    9 00000000                 EXPORT           port_irq_context_switch
+   10 00000000                 EXPORT           port_clz
+   11 00000000         
+   12 00000000                 EXPORT           PendSV_Handler
+   13 00000000         
+   14 00000000                 IMPORT           k_curr_task
+   15 00000000                 IMPORT           k_next_task
+   16 00000000         
+   17 00000000         
+   18 00000000 E000ED08 
+                       SCB_VTOR
+                               EQU              0xE000ED08
+   19 00000000 E000ED04 
+                       NVIC_INT_CTRL
+                               EQU              0xE000ED04
+   20 00000000 E000ED22 
+                       NVIC_SYSPRI14
+                               EQU              0xE000ED22
+   21 00000000 000000FF 
+                       NVIC_PENDSV_PRI
+                               EQU              0xFF
+   22 00000000 10000000 
+                       NVIC_PENDSVSET
+                               EQU              0x10000000
+   23 00000000         
+   24 00000000         
+   25 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   26 00000000                 THUMB
+   27 00000000                 REQUIRE8
+   28 00000000                 PRESERVE8
+   29 00000000         
+   30 00000000         
+   31 00000000                 GLOBAL           port_int_disable
+   32 00000000         port_int_disable
+   33 00000000 B672            CPSID            I
+   34 00000002 4770            BX               LR
+   35 00000004         
+   36 00000004         
+   37 00000004                 GLOBAL           port_int_enable
+   38 00000004         port_int_enable
+   39 00000004 B662            CPSIE            I
+   40 00000006 4770            BX               LR
+   41 00000008         
+   42 00000008         
+   43 00000008                 GLOBAL           port_cpsr_save
+   44 00000008         port_cpsr_save
+   45 00000008 F3EF 8010       MRS              R0, PRIMASK
+   46 0000000C B672            CPSID            I
+   47 0000000E 4770            BX               LR
+   48 00000010         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   49 00000010         
+   50 00000010                 GLOBAL           port_cpsr_restore
+   51 00000010         port_cpsr_restore
+   52 00000010 F380 8810       MSR              PRIMASK, R0
+   53 00000014 4770            BX               LR
+   54 00000016         
+   55 00000016         
+   56 00000016                 GLOBAL           port_clz
+   57 00000016         port_clz
+   58 00000016 FAB0 F080       CLZ              R0, R0
+   59 0000001A 4770            BX               LR
+   60 0000001C         
+   61 0000001C         
+   62 0000001C                 GLOBAL           port_sched_start
+   63 0000001C         port_sched_start
+   64 0000001C B672            CPSID            I
+   65 0000001E         
+   66 0000001E         ; set pendsv priority lowest
+   67 0000001E         ; otherwise trigger pendsv in port_irq_context_switch wi
+                       ll cause a context swich in irq
+   68 0000001E         ; that would be a disaster
+   69 0000001E F64E 5022 
+              F2CE 0000        MOV32            R0, NVIC_SYSPRI14
+   70 00000026 F240 01FF 
+              F2C0 0100        MOV32            R1, NVIC_PENDSV_PRI
+   71 0000002E 7001            STRB             R1, [R0]
+   72 00000030         
+   73 00000030 4829            LDR              R0, =SCB_VTOR
+   74 00000032 6800            LDR              R0, [R0]
+   75 00000034 6800            LDR              R0, [R0]
+   76 00000036 F380 8808       MSR              MSP, R0
+   77 0000003A         
+   78 0000003A         ; k_curr_task = k_next_task
+   79 0000003A F240 0000 
+              F2C0 0000        MOV32            R0, k_curr_task
+   80 00000042 F240 0100 
+              F2C0 0100        MOV32            R1, k_next_task
+   81 0000004A 680A            LDR              R2, [R1]
+   82 0000004C 6002            STR              R2, [R0]
+   83 0000004E         
+   84 0000004E         ; sp = k_next_task->sp
+   85 0000004E 6810            LDR              R0, [R2]
+   86 00000050         ; PSP = sp
+   87 00000050 F380 8809       MSR              PSP, R0
+   88 00000054         
+   89 00000054         ; using PSP
+   90 00000054 F3EF 8014       MRS              R0, CONTROL
+   91 00000058 F040 0002       ORR              R0, R0, #2
+   92 0000005C F380 8814       MSR              CONTROL, R0
+   93 00000060         
+   94 00000060 F3BF 8F6F       ISB
+   95 00000064         
+   96 00000064         ; restore r4-11 from new process stack
+   97 00000064 E8BD 0FF0       LDMFD            SP!, {R4 - R11}
+   98 00000068         
+   99 00000068                 IF               {FPU} != "SoftVFP"
+  100 00000068         ; ignore EXC_RETURN the first switch
+  101 00000068 BC01            LDMFD            SP!, {R0}
+  102 0000006A                 ENDIF
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+  103 0000006A         
+  104 0000006A         ; restore r0, r3
+  105 0000006A BC0F            LDMFD            SP!, {R0 - R3}
+  106 0000006C         ; load R12 and LR
+  107 0000006C E8BD 5000       LDMFD            SP!, {R12, LR}
+  108 00000070         ; load PC and discard xPSR
+  109 00000070 BC06            LDMFD            SP!, {R1, R2}
+  110 00000072         
+  111 00000072 B662            CPSIE            I
+  112 00000074 4708            BX               R1
+  113 00000076         
+  114 00000076         
+  115 00000076                 GLOBAL           port_context_switch
+  116 00000076         port_context_switch
+  117 00000076 4819            LDR              R0, =NVIC_INT_CTRL
+  118 00000078 F04F 5180       LDR              R1, =NVIC_PENDSVSET
+  119 0000007C 6001            STR              R1, [R0]
+  120 0000007E 4770            BX               LR
+  121 00000080         
+  122 00000080         
+  123 00000080                 GLOBAL           port_irq_context_switch
+  124 00000080         port_irq_context_switch
+  125 00000080 4816            LDR              R0, =NVIC_INT_CTRL
+  126 00000082 F04F 5180       LDR              R1, =NVIC_PENDSVSET
+  127 00000086 6001            STR              R1, [R0]
+  128 00000088 4770            BX               LR
+  129 0000008A         
+  130 0000008A         
+  131 0000008A                 GLOBAL           PendSV_Handler
+  132 0000008A         PendSV_Handler
+  133 0000008A B672            CPSID            I
+  134 0000008C F3EF 8009       MRS              R0, PSP
+  135 00000090         
+  136 00000090         _context_save
+  137 00000090         ; R0-R3, R12, LR, PC, xPSR is saved automatically here
+  138 00000090                 IF               {FPU} != "SoftVFP"
+  139 00000090         ; is it extended frame?
+  140 00000090 F01E 0F10       TST              LR, #0x10
+  141 00000094 BF08            IT               EQ
+  142 00000096 ED20 8A10       VSTMDBEQ         R0!, {S16 - S31}
+  143 0000009A         ; S0 - S16, FPSCR saved automatically here
+  144 0000009A         
+  145 0000009A         ; save EXC_RETURN
+  146 0000009A F840 ED04       STMFD            R0!, {LR}
+  147 0000009E                 ENDIF
+  148 0000009E         
+  149 0000009E         ; save remaining regs r4 - 11 on process stack
+  150 0000009E E920 0FF0       STMFD            R0!, {R4 - R11}
+  151 000000A2         
+  152 000000A2         ; k_curr_task->sp = PSP
+  153 000000A2 F240 0500 
+              F2C0 0500        MOV32            R5, k_curr_task
+  154 000000AA 682E            LDR              R6, [R5]
+  155 000000AC         ; R0 is SP of process being switched out
+  156 000000AC 6030            STR              R0, [R6]
+  157 000000AE         
+  158 000000AE         _context_restore
+  159 000000AE         ; k_curr_task = k_next_task
+  160 000000AE F240 0100 
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+              F2C0 0100        MOV32            R1, k_next_task
+  161 000000B6 680A            LDR              R2, [R1]
+  162 000000B8 602A            STR              R2, [R5]
+  163 000000BA         
+  164 000000BA         ; R0 = k_next_task->sp
+  165 000000BA 6810            LDR              R0, [R2]
+  166 000000BC         
+  167 000000BC         ; restore R4 - R11
+  168 000000BC E8B0 0FF0       LDMFD            R0!, {R4 - R11}
+  169 000000C0         
+  170 000000C0                 IF               {FPU} != "SoftVFP"
+  171 000000C0         ; restore EXC_RETURN
+  172 000000C0 F850 EB04       LDMFD            R0!, {LR}
+  173 000000C4         ; is it extended frame?
+  174 000000C4 F01E 0F10       TST              LR, #0x10
+  175 000000C8 BF08            IT               EQ
+  176 000000CA ECB0 8A10       VLDMIAEQ         R0!, {S16 - S31}
+  177 000000CE                 ENDIF
+  178 000000CE         
+  179 000000CE         ; Load PSP with new process SP
+  180 000000CE F380 8809       MSR              PSP, R0
+  181 000000D2 B662            CPSIE            I
+  182 000000D4         ; R0-R3, R12, LR, PC, xPSR restored automatically here
+  183 000000D4         ; S0 - S16, FPSCR restored automatically here if FPCA = 
+                       1
+  184 000000D4 4770            BX               LR
+  185 000000D6         
+  186 000000D6 00 00           ALIGN
+  187 000000D8                 END
+              E000ED08 
+              E000ED04 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M7.fp.dp --apcs=
+interwork --depend=..\obj\port_s.d -o..\obj\port_s.o -I.\RTE\_awtkapp -IC:\Keil
+_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.2.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include
+ -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__UVISION_VERSION SETA 524" --pred
+efine="STM32H743xx SETA 1" --list=..\obj\port_s.lst ..\TencentOS\arch\arm\arm-v
+7m\cortex-m7\armcc\port_s.S
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 25 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      None
+Comment: .text unused
+PendSV_Handler 0000008A
+
+Symbol: PendSV_Handler
+   Definitions
+      At line 132 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+   Uses
+      At line 12 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 131 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+
+_context_restore 000000AE
+
+Symbol: _context_restore
+   Definitions
+      At line 158 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+   Uses
+      None
+Comment: _context_restore unused
+_context_save 00000090
+
+Symbol: _context_save
+   Definitions
+      At line 136 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+   Uses
+      None
+Comment: _context_save unused
+port_clz 00000016
+
+Symbol: port_clz
+   Definitions
+      At line 57 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 10 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 56 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+
+port_context_switch 00000076
+
+Symbol: port_context_switch
+   Definitions
+      At line 116 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+   Uses
+      At line 8 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 115 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+
+port_cpsr_restore 00000010
+
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+Symbol: port_cpsr_restore
+   Definitions
+      At line 51 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 5 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 50 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+
+port_cpsr_save 00000008
+
+Symbol: port_cpsr_save
+   Definitions
+      At line 44 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 4 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 43 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+
+port_int_disable 00000000
+
+Symbol: port_int_disable
+   Definitions
+      At line 32 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 1 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 31 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+
+port_int_enable 00000004
+
+Symbol: port_int_enable
+   Definitions
+      At line 38 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 2 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 37 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+
+port_irq_context_switch 00000080
+
+Symbol: port_irq_context_switch
+   Definitions
+      At line 124 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+   Uses
+      At line 9 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 123 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+
+port_sched_start 0000001C
+
+Symbol: port_sched_start
+   Definitions
+      At line 63 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 7 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 62 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+
+12 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+NVIC_INT_CTRL E000ED04
+
+Symbol: NVIC_INT_CTRL
+   Definitions
+      At line 19 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 117 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+      At line 125 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+
+NVIC_PENDSVSET 10000000
+
+Symbol: NVIC_PENDSVSET
+   Definitions
+      At line 22 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 118 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+      At line 126 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+
+NVIC_PENDSV_PRI 000000FF
+
+Symbol: NVIC_PENDSV_PRI
+   Definitions
+      At line 21 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 70 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+Comment: NVIC_PENDSV_PRI used once
+NVIC_SYSPRI14 E000ED22
+
+Symbol: NVIC_SYSPRI14
+   Definitions
+      At line 20 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 69 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+Comment: NVIC_SYSPRI14 used once
+SCB_VTOR E000ED08
+
+Symbol: SCB_VTOR
+   Definitions
+      At line 18 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 73 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+Comment: SCB_VTOR used once
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+k_curr_task 00000000
+
+Symbol: k_curr_task
+   Definitions
+      At line 14 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 79 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 153 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+
+k_next_task 00000000
+
+Symbol: k_next_task
+   Definitions
+      At line 15 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+   Uses
+      At line 80 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.S
+      At line 160 in file ..\TencentOS\arch\arm\arm-v7m\cortex-m7\armcc\port_s.
+S
+
+2 symbols
+354 symbols in table

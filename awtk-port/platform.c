@@ -26,10 +26,15 @@
 
 
 #define MEM2_MAX_SIZE 8 * 1024 * 1024
-#define MEM2_ADDR (uint8_t*)0XC0000000 + 2 * 2 * 480 * 800
+#define MEM2_ADDR (uint8_t*)0XC0000000 + 2 * 1024 * 1024
 
 ret_t platform_prepare(void) {
-  tk_mem_init(MEM2_ADDR, MEM2_MAX_SIZE);
+	static bool_t inited = FALSE;
 	
+	if (!inited) {
+		inited = TRUE;
+		tk_mem_init(MEM2_ADDR, MEM2_MAX_SIZE);
+	}
+  
   return RET_OK;
 }
