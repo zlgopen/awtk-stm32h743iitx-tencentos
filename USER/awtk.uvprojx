@@ -2290,6 +2290,26 @@
               <FileType>1</FileType>
               <FilePath>..\awtk\src\ext_widgets\features\draggable.c</FilePath>
             </File>
+            <File>
+              <FileName>file_browser.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\ext_widgets\file_browser\file_browser.c</FilePath>
+            </File>
+            <File>
+              <FileName>file_browser_view.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\ext_widgets\file_browser\file_browser_view.c</FilePath>
+            </File>
+            <File>
+              <FileName>file_chooser.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\ext_widgets\file_browser\file_chooser.c</FilePath>
+            </File>
+            <File>
+              <FileName>asset_loader_default.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\base\asset_loader_default.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

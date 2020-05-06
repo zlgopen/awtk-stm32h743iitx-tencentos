@@ -1,6 +1,12 @@
 
 # STM32H743 移植笔记
 
+> 本项目除了实现基本功能的移植外，还提供了如下功能：
+
+* 集成实时操作系统 (RTOS)（腾讯的 TinyOS)
+* 集成 FATFS 文件系统，访问 SD 卡的数据。
+* 实现从文件系统加载应用程序的资源。
+
 ## 1. 介绍
 
 在移植的时候，不管是什么板子，拿到板子的资料后，先找一个带有显示功能的最简示例。以这个最简示例为模板，加入 AWTK 相关代码再进行移植。本文中使用开发板提供的 SD 卡的例子，具体位置在：
@@ -172,7 +178,7 @@ AWTK 的源文件很多，而且不同的平台，加入的文件有所不同，
 void SysTick_Handler(void)
 {
   HAL_IncTick();
-	
+  
 }
 #endif
 ```
@@ -231,13 +237,13 @@ static uint8_t* s_framebuffers[2];
 lcd_t* lcd_impl_create(wh_t w, wh_t h) {
   lcd_t* lcd = NULL;
 
-	
+  
 #if LCD_PIXFORMAT==LCD_PIXFORMAT_ARGB8888
   lcd = lcd_mem_bgra8888_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
 #else
   lcd = lcd_mem_bgr565_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
 #endif /*LCD_PIXFORMAT*/
-	
+  
   return lcd;
 }
 ```
@@ -250,7 +256,7 @@ main_loop_impl.c 主要负责各种事件的分发，这里使用 main_loop_raw.
 #include "main_loop/main_loop_simple.h"
 
 uint8_t platform_disaptch_input(main_loop_t* loop) {
-	/*TODO*/
+  /*TODO*/
 
   return 0;
 }
@@ -270,7 +276,7 @@ lcd_t* platform_create_lcd(wh_t w, wh_t h) {
 ```c
 void sys_tick_init(int SYSCLK)
 {
-	/*TODO*/
+  /*TODO*/
 }		
 ```
 
@@ -298,7 +304,7 @@ void sys_tick_init(int SYSCLK)
 
 ret_t platform_prepare(void) {
   static bool_t inited = FALSE;
-	
+  
   if (!inited) {
     inited = TRUE;
     tk_mem_init(MEM2_ADDR, MEM2_MAX_SIZE);
@@ -323,9 +329,9 @@ ret_t platform_prepare(void) {
 
 ```c
 #if LCD_PIXFORMAT==LCD_PIXFORMAT_ARGB8888||LCD_PIXFORMAT==LCD_PIXFORMAT_RGB888
-	u32 ltdc_lcd_framebuf[1280][800] __attribute__((at(LCD_FRAME_BUF_ADDR)));	
+  u32 ltdc_lcd_framebuf[1280][800] __attribute__((at(LCD_FRAME_BUF_ADDR)));	
 #else
-	u16 ltdc_lcd_framebuf[1280][800] __attribute__((at(LCD_FRAME_BUF_ADDR)));	
+  u16 ltdc_lcd_framebuf[1280][800] __attribute__((at(LCD_FRAME_BUF_ADDR)));	
 #endif
 
 ```
@@ -349,13 +355,13 @@ lcd_t* lcd_impl_create(wh_t w, wh_t h) {
 
   s_framebuffers[0] = FB_ADDR;
   s_framebuffers[1] = FB_ADDR + size;
-	
+  
 #if LCD_PIXFORMAT==LCD_PIXFORMAT_ARGB8888
   lcd = lcd_mem_bgra8888_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
 #else
   lcd = lcd_mem_bgr565_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
 #endif /*LCD_PIXFORMAT*/
-	
+  
   return lcd;
 }
 
@@ -368,56 +374,56 @@ lcd_t* lcd_impl_create(wh_t w, wh_t h) {
 lcd_t* lcd_impl_create(wh_t w, wh_t h);
 
 void lcd_test(void) {
-	rect_t r = rect_init(0, 0, 30, 30);
-	lcd_t* lcd = lcd_impl_create(lcdltdc.width, lcdltdc.height);
-	color_t red = color_init(0xff, 0, 0, 0xff);
-	color_t green  = color_init(0, 0xff, 0, 0xff);
-	color_t blue = color_init(0, 0, 0xff, 0xff);
-	color_t gray = color_init(0x80, 0x80, 0x80, 0xff);
-	
-	while(1) {
-		lcd_begin_frame(lcd, &r, LCD_DRAW_NORMAL);
-		lcd_set_fill_color(lcd, gray);
-		lcd_fill_rect(lcd, 0, 0, 30, 30);	
-		lcd_set_fill_color(lcd, red);
-		lcd_fill_rect(lcd, 0, 0, 10, 10);
-		lcd_set_fill_color(lcd, green);
-		lcd_fill_rect(lcd, 10, 10, 10, 10);
-		lcd_set_fill_color(lcd, blue);
-		lcd_fill_rect(lcd, 20, 20, 10, 10);
-		
-		lcd_end_frame(lcd);
-	}
+  rect_t r = rect_init(0, 0, 30, 30);
+  lcd_t* lcd = lcd_impl_create(lcdltdc.width, lcdltdc.height);
+  color_t red = color_init(0xff, 0, 0, 0xff);
+  color_t green  = color_init(0, 0xff, 0, 0xff);
+  color_t blue = color_init(0, 0, 0xff, 0xff);
+  color_t gray = color_init(0x80, 0x80, 0x80, 0xff);
+  
+  while(1) {
+    lcd_begin_frame(lcd, &r, LCD_DRAW_NORMAL);
+    lcd_set_fill_color(lcd, gray);
+    lcd_fill_rect(lcd, 0, 0, 30, 30);	
+    lcd_set_fill_color(lcd, red);
+    lcd_fill_rect(lcd, 0, 0, 10, 10);
+    lcd_set_fill_color(lcd, green);
+    lcd_fill_rect(lcd, 10, 10, 10, 10);
+    lcd_set_fill_color(lcd, blue);
+    lcd_fill_rect(lcd, 20, 20, 10, 10);
+    
+    lcd_end_frame(lcd);
+  }
 }
 
 int main(void)
 {
- 	u32 total,free;
-	u8 t=0;	
-	u8 res=0;	
-	
-	Cache_Enable();            
-	MPU_Memory_Protection();   
-	HAL_Init();				        	
-	Stm32_Clock_Init(160,5,2,4);
-	delay_init(400);						
-	uart_init(115200);					
-	usmart_dev.init(200); 		  
-	LED_Init();								
-	KEY_Init();								
-	SDRAM_Init();             
-	LCD_Init();								
+   u32 total,free;
+  u8 t=0;	
+  u8 res=0;	
+  
+  Cache_Enable();            
+  MPU_Memory_Protection();   
+  HAL_Init();				        	
+  Stm32_Clock_Init(160,5,2,4);
+  delay_init(400);						
+  uart_init(115200);					
+  usmart_dev.init(200); 		  
+  LED_Init();								
+  KEY_Init();								
+  SDRAM_Init();             
+  LCD_Init();								
   W25QXX_Init();				   	
- 	my_mem_init(SRAMIN);		  
-	my_mem_init(SRAMEX);		  
-	my_mem_init(SRAMDTCM);		
+   my_mem_init(SRAMIN);		  
+  my_mem_init(SRAMEX);		  
+  my_mem_init(SRAMDTCM);		
   POINT_COLOR=RED;
-	
-	LTDC_Display_Dir(1);
-	platform_prepare();
-	system_info_init(0, "app", NULL);
-	lcd_test();
-	
+  
+  LTDC_Display_Dir(1);
+  platform_prepare();
+  system_info_init(0, "app", NULL);
+  lcd_test();
+  
 }
 ```
 
@@ -437,7 +443,7 @@ int main(void)
 #else
   lcd = lcd_mem_bgr565_create_double_fb(w, h, s_framebuffers[0], s_framebuffers[1]);
 #endif /*LCD_PIXFORMAT*/
-	 
+   
 ```
 
 ### 8.2 初始化 systick
@@ -449,11 +455,11 @@ systick 主要用于辅助实现定时器，底层驱动我也不熟悉， 可�
 ```c
 void sys_tick_init(int SYSCLK)
 {
-	u32 reload=SYSCLK * 1000;
+  u32 reload=SYSCLK * 1000;
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
-	SysTick->CTRL|=SysTick_CTRL_TICKINT_Msk;
-	SysTick->LOAD=reload; 				
-	SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk;
+  SysTick->CTRL|=SysTick_CTRL_TICKINT_Msk;
+  SysTick->LOAD=reload; 				
+  SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk;
 }	
 ```
 
@@ -467,33 +473,33 @@ int systick_test(void) {
   int64_t end = get_time_ms64();
   int64_t duration = end - start;
   assert(duration == 1000);
-	
-	return duration;
+  
+  return duration;
 }
 
 int main(void)
 {
- 	u32 total,free;
-	u8 t=0;	
-	u8 res=0;	
-	
-	Cache_Enable();                	
-	MPU_Memory_Protection();        
-	HAL_Init();				        		
-	Stm32_Clock_Init(160,5,2,4); 
-	//delay_init(400);						
-	uart_init(115200);						
-	usmart_dev.init(200); 		
-	LED_Init();								
-	KEY_Init();								
-	SDRAM_Init();      
-	LCD_Init();								
+   u32 total,free;
+  u8 t=0;	
+  u8 res=0;	
+  
+  Cache_Enable();                	
+  MPU_Memory_Protection();        
+  HAL_Init();				        		
+  Stm32_Clock_Init(160,5,2,4); 
+  //delay_init(400);						
+  uart_init(115200);						
+  usmart_dev.init(200); 		
+  LED_Init();								
+  KEY_Init();								
+  SDRAM_Init();      
+  LCD_Init();								
   W25QXX_Init();				
-	LTDC_Display_Dir(1);
-	
-	sys_tick_init(400);
-	platform_prepare();
-	systick_test();	
+  LTDC_Display_Dir(1);
+  
+  sys_tick_init(400);
+  platform_prepare();
+  systick_test();	
 }
 
 ```
@@ -523,29 +529,29 @@ extern int gui_app_start(int lcd_w, int lcd_h);
 
 int main(void)
 {
- 	u32 total,free;
-	u8 t=0;	
-	u8 res=0;	
-	
-	Cache_Enable();                	
-	MPU_Memory_Protection();        
-	HAL_Init();				        		
-	Stm32_Clock_Init(160,5,2,4); 
-	//delay_init(400);						
-	uart_init(115200);						
-	usmart_dev.init(200); 		
-	LED_Init();								
-	KEY_Init();								
-	SDRAM_Init();      
-	LCD_Init();								
- 	W25QXX_Init();				
-	LTDC_Display_Dir(1);
-	
-	sys_tick_init(400);
-	
-	gui_app_start(lcdltdc.width, lcdltdc.height);
+   u32 total,free;
+  u8 t=0;	
+  u8 res=0;	
+  
+  Cache_Enable();                	
+  MPU_Memory_Protection();        
+  HAL_Init();				        		
+  Stm32_Clock_Init(160,5,2,4); 
+  //delay_init(400);						
+  uart_init(115200);						
+  usmart_dev.init(200); 		
+  LED_Init();								
+  KEY_Init();								
+  SDRAM_Init();      
+  LCD_Init();								
+   W25QXX_Init();				
+  LTDC_Display_Dir(1);
+  
+  sys_tick_init(400);
+  
+  gui_app_start(lcdltdc.width, lcdltdc.height);
 
-	return 0;
+  return 0;
 }	
 ```
 
@@ -558,7 +564,7 @@ int main(void)
 
 ### 10.1 调整 Stack_Size
 
-STM32H743 的 Stack_Size 是在文件 startup_stm32h743xx.s 中定义的，我们把它从 1K 改为 8K:
+STM32H743 的 Stack_Size 是在文件 startup_stm32h743xx.s 中定义的，我们把它从 1K 改为 32K:
 
 ```c
 ; Amount of memory (in bytes) allocated for Stack
@@ -588,40 +594,40 @@ Stack_Size      EQU     0x00008000
 
 ### 11.1 实现按键事件
 
-按键事件通过 platform\_disaptch\_input 分发。这块开发板，只有 3 个按键公应用程序使用，我们把它映射到 tab、return 和 f3 几个键上，方便在没有触屏的情况下，也可实现 demoui 窗口之间的导航。
+按键事件通过 platform\_disaptch\_input 分发。这块开发板，只有 4 个按键公应用程序使用，我们把它映射到 tab、return 和 f3 几个键上，方便在没有触屏的情况下，也可实现 demoui 窗口之间的导航。
 
 ```c
-#define MAX_KEYS_NR 3
+#define MAX_KEYS_NR 4
 static bool_t s_key_pressed[MAX_KEYS_NR];
 static int s_key_map[MAX_KEYS_NR] = {
-	TK_KEY_TAB,/*move focus*/
-	TK_KEY_RETURN,/*activate*/
-	TK_KEY_F3/*back*/
+  TK_KEY_TAB,/*move focus*/
+  TK_KEY_RETURN,/*activate*/
+  TK_KEY_F3/*back*/
 };
 
 static ret_t platform_disaptch_key_events(main_loop_t* loop) {
   uint8_t value = KEY_Scan(0);
 
-	if(value > 0) {
-		int key = value - 1;
-		s_key_pressed[key] = TRUE;
-		main_loop_post_key_event(loop, TRUE, s_key_map[key]);
-	} else {
-		int i = 0;
-		for (i = 0; i < MAX_KEYS_NR; i++) {
-			if(s_key_pressed[i]) {
-				s_key_pressed[i] = FALSE;
-				main_loop_post_key_event(loop, FALSE, s_key_map[i]);
-			}
-		}
-	}
+  if(value > 0) {
+    int key = value - 1;
+    s_key_pressed[key] = TRUE;
+    main_loop_post_key_event(loop, TRUE, s_key_map[key]);
+  } else {
+    int i = 0;
+    for (i = 0; i < MAX_KEYS_NR; i++) {
+      if(s_key_pressed[i]) {
+        s_key_pressed[i] = FALSE;
+        main_loop_post_key_event(loop, FALSE, s_key_map[i]);
+      }
+    }
+  }
 
   return RET_OK;
 }
 
 static ret_t platform_disaptch_input(main_loop_t* loop) {
-	platform_disaptch_key_events(loop);
-	
+  platform_disaptch_key_events(loop);
+  
   return RET_OK;
 }
 ```
@@ -653,9 +659,9 @@ static ret_t platform_disaptch_touch_events(main_loop_t* loop) {
   y = lcdltdc.height - tp_dev.x[0];
 
   if (tp_dev.sta & 1) {		
-		if (x < lcdltdc.width && y < lcdltdc.height) {
-			main_loop_post_pointer_event(loop, TRUE, x, y);
-		}
+    if (x < lcdltdc.width && y < lcdltdc.height) {
+      main_loop_post_pointer_event(loop, TRUE, x, y);
+    }
   } else {
     main_loop_post_pointer_event(loop, FALSE, x, y);
   }
@@ -664,9 +670,9 @@ static ret_t platform_disaptch_touch_events(main_loop_t* loop) {
 }
 
 static ret_t platform_disaptch_input(main_loop_t* loop) {
-	platform_disaptch_key_events(loop);
-	platform_disaptch_touch_events(loop);
-	
+  platform_disaptch_key_events(loop);
+  platform_disaptch_touch_events(loop);
+  
   return RET_OK;
 }
 ```
@@ -680,43 +686,41 @@ static u32 fac_us=0;
 
 void delay_init(u16 SYSCLK)
 {
-	fac_us=SYSCLK;						   
+  fac_us=SYSCLK;						   
 }								    
 
 void delay_us(u32 nus)
 {		
-	u32 ticks;
-	u32 told,tnow,tcnt=0;
-	u32 reload=SysTick->LOAD;			
-	ticks=nus*fac_us; 						
+  u32 ticks;
+  u32 told,tnow,tcnt=0;
+  u32 reload=SysTick->LOAD;			
+  ticks=nus*fac_us; 						
 
-	told=SysTick->VAL;        				
-	while(1)
-	{
-		tnow=SysTick->VAL;	
-		if(tnow!=told)
-		{	    
-			if(tnow<told)tcnt+=told-tnow;	
-			else tcnt+=reload-tnow+told;	    
-			told=tnow;
-			if(tcnt>=ticks)break;		
-		}  
-	};
-						    
+  told=SysTick->VAL;        				
+  while(1)
+  {
+    tnow=SysTick->VAL;	
+    if(tnow!=told)
+    {	    
+      if(tnow<told)tcnt+=told-tnow;	
+      else tcnt+=reload-tnow+told;	    
+      told=tnow;
+      if(tcnt>=ticks)break;		
+    }  
+  };
+                
 }  
 
 void delay_ms(u16 nms)
 {	
-	delay_us((u32)(nms*1000));		
+  delay_us((u32)(nms*1000));		
 }
 
 ```
 
 编译运行，一切正常。
 
-## 12. 加入 tencentos
-
-> 如果不要 RTOS，可以忽略此段。
+## 12. 支持 RTOS（腾讯 TinyOS)
 
 * 加入 tencentos 相关文件。
 
@@ -815,34 +819,34 @@ static ret_t awtk_start_ui_thread(void) {
 
 int main(void)
 {
- 	u32 total,free;
-	u8 t=0;	
-	u8 res=0;	
-	
-	Cache_Enable();                	
-	MPU_Memory_Protection();        
-	HAL_Init();				        		
-	Stm32_Clock_Init(160,5,2,4); 
-	delay_init(400);						
-	uart_init(115200);						
-	usmart_dev.init(200); 		
-	LED_Init();								
-	KEY_Init();								
-	SDRAM_Init();      
-	LCD_Init();								
+   u32 total,free;
+  u8 t=0;	
+  u8 res=0;	
+  
+  Cache_Enable();                	
+  MPU_Memory_Protection();        
+  HAL_Init();				        		
+  Stm32_Clock_Init(160,5,2,4); 
+  delay_init(400);						
+  uart_init(115200);						
+  usmart_dev.init(200); 		
+  LED_Init();								
+  KEY_Init();								
+  SDRAM_Init();      
+  LCD_Init();								
   W25QXX_Init();				
-	LTDC_Display_Dir(1);	
-	sys_tick_init(400);
-	
-	tp_dev.init();
-	
+  LTDC_Display_Dir(1);	
+  sys_tick_init(400);
+  
+  tp_dev.init();
+  
   platform_prepare();
-		
+    
   rtos_init();
   awtk_start_ui_thread();
   rtos_start();
 
-	return 0;
+  return 0;
 }
 ```
 
@@ -850,9 +854,9 @@ int main(void)
 
 > GUI 线程的栈不小于 0x8000，否则可能出现莫名奇妙的错误。
 
-## 13. 加入 fatfs 访问 SD 卡
+## 13. 加入 FATFS 访问 SD 卡
 
-有时需要从 SD 卡加载资源，或者把数据存储到 SD 卡中，此时需要让 AWTK 支持 FATFS。awtk-fs-adapter 提供了对 fatfs 文件系统的包装，只需要把它加入进来即可。
+有时需要从 SD 卡加载资源，或者把数据存储到 SD 卡中，此时需要让 AWTK 支持 FATFS。awtk-fs-adapter 提供了对 FATFS。awtk 文件系统的包装，只需要把它加入进来即可。
 
 * 下载 awtk-fs-adapter 到 awtk-stm32h743iitx-tencentos 目录
 
@@ -932,3 +936,57 @@ int main(void)
 
 编译运行，测试通过。
 
+## 14. 从 SD 卡加载资源
+
+* 准备资源数据
+
+用 release 脚本将资源和可执行文件拷贝到独立目录，然后将其中的 assets 目录拷贝到 SD 卡的 awtk 目录中 (release 目录）。如下图所示：
+
+```
+python scripts/release.py demoui.exe
+```
+
+![](images/sdcard_1.jpg)
+
+将 SD 卡弹出，并插入到开发板中。修改 main.c，加一行测试代码，重新编译运行。
+
+```c
+  f_mount(fs[0],"0:",1);
+  assert(file_exist("0://awtk/assets/default/raw/fonts/default.ttf"));
+```
+
+如果没有触发 assert，表示能够正确访问资源。
+
+* 修改配置支持从文件系统加载资源
+
+修改 awtk-port/awtk\_config.h，定义以下几个宏：
+
+```c
+/**
+ * 如果支持从文件系统加载资源，请定义本宏。
+ *
+ */
+#define WITH_FS_RES 1
+
+/**
+ * 如果代码在 flash 中，而资源在文件系统，请定义本宏指明资源所在的路径。
+ *
+ */
+#define APP_RES_ROOT "0://awtk/"
+```
+
+重新编译运行，我们可以发现 RO-data 有明显减少：
+
+前（仅供参考）：
+```
+Program Size: Code=584346 RO-data=987002 RW-data=2152 ZI-data=34194296  
+```
+
+后（仅供参考）：
+```
+Program Size: Code=593450 RO-data=516062 RW-data=3444 ZI-data=34194540  
+```
+
+编译运行，一切正常（请用最新代码）。
+
+> 如果遇到问题，请在 awtk/src/base/asset_loader_default.c 中的 load_asset 函数设置断点，看看资源有没有正确加载（确认路径是否正确）。

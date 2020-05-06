@@ -95,6 +95,22 @@
  */
 #define WITHOUT_SUGGEST_WORDS 1
 
+/**
+ * 如果支持从文件系统加载资源，请定义本宏。
+ *
+ */
+#define WITH_FS_RES 1
+
+/**
+ * 如果代码在flash中，而资源在文件系统，请定义本宏指明资源所在的路径。
+ *
+ */
+#define APP_RES_ROOT "0://awtk/"
+
+/**
+* 如果不支持输入法，请定义本宏。
+ *
+ */
 #define WITH_IME_NULL 1
 
 #endif/*AWTK_CONFIG_H*/

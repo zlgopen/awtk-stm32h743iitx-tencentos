@@ -4,7 +4,13 @@
 
 [awtk-stm32h743iitx-tencentos](https://github.com/zlgopen/awtk-stm32h743iitx-tencentos) 是 AWTK 在 TM32H743 上的移植。
 
-本项目以 [正点原子阿波罗STM32H743开发板STM32H7](https://item.taobao.com/item.htm?id=571115692251&ali_refid=a3_430582_1006:1103191143:N:HIGgPtZ%2BAhQpeEvXe%2FK1RspPjJRVCvOC:5b41a06d9f58d787690cd30a8865e887&ali_trackid=1_5b41a06d9f58d787690cd30a8865e887&spm=a230r.1.14.8#detail) 为载体移植，其它开发板可能要做些修改，有问题请请创建 issue。
+本项目以 [正点原子阿波罗 STM32H743 开发板 STM32H7](https://item.taobao.com/item.htm?id=571115692251&ali_refid=a3_430582_1006:1103191143:N:HIGgPtZ%2BAhQpeEvXe%2FK1RspPjJRVCvOC:5b41a06d9f58d787690cd30a8865e887&ali_trackid=1_5b41a06d9f58d787690cd30a8865e887&spm=a230r.1.14.8#detail) 为载体移植，其它开发板可能要做些修改，有问题请请创建 issue。
+
+本项目除了实现基本功能的移植外，还提供了如下功能：
+
+* 集成实时操作系统 (RTOS)（腾讯的 TinyOS)
+* 集成 FATFS 文件系统，访问 SD 卡的数据。
+* 实现从文件系统加载应用程序的资源。
 
 ## 编译
 

@@ -37,6 +37,7 @@ G# Prerequisites
 *.x86_64
 *.hex
 *.crf
+*._ia
 
 # Debug files
 *.dSYM/
