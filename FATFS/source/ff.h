@@ -369,6 +369,8 @@ int ff_del_syncobj (FF_SYNC_t sobj);	/* Delete a sync object */
 #define AM_ARC	0x20	/* Archive */
 
 
+typedef DIR FF_DIR;
+
 #ifdef __cplusplus
 }
 #endif

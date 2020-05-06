@@ -318,7 +318,6 @@
 "..\obj\blend_image_rgba8888_rgb565.o"
 "..\obj\lang_indicator.o"
 "..\obj\rich_text_view.o"
-"..\obj\fs_os.o"
 "..\obj\emojidef.o"
 "..\obj\graphemebreak.o"
 "..\obj\linebreak.o"
@@ -404,6 +403,7 @@
 "..\obj\tos_timer.o"
 "..\obj\tos_pm.o"
 "..\obj\tos_tickless.o"
+"..\obj\fs_os_fatfs.o"
 --strict --scatter "..\OBJ\Template.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

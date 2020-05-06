@@ -14,6 +14,7 @@
 git clone https://github.com/zlgopen/awtk-stm32h743iitx-tencentos.git
 cd awtk-stm32h743iitx-tencentos
 git clone https://github.com/zlgopen/awtk.git
+git clone https://github.com/zlgopen/awtk-fs-adapter.git
 ```
 
 2. 用 keil 打开 USER/awtk.uvprojx

@@ -849,3 +849,85 @@ int main(void)
 编译运行，一切正常。
 
 > GUI 线程的栈不小于 0x8000，否则可能出现莫名奇妙的错误。
+
+## 13. 加入 fatfs 访问 SD 卡
+
+有时需要从 SD 卡加载资源，或者把数据存储到 SD 卡中，此时需要让 AWTK 支持 FATFS。awtk-fs-adapter 提供了对 fatfs 文件系统的包装，只需要把它加入进来即可。
+
+* 下载 awtk-fs-adapter 到 awtk-stm32h743iitx-tencentos 目录
+
+```
+git clone https://github.com/zlgopen/awtk-fs-adapter.git
+```
+
+* 从工程中删除：src\platforms\raw\fs_os.c
+
+* 加入 awtk-fs-adapter\src\fs_os_fatfs.c
+
+* 修改 ffconf.h
+
+```c
+#define FF_FS_RPATH		2
+```
+
+* 修改 ff.h
+
+> 如果系统提供的 FATFS 版本够新，则无需此步。
+
+```c
+typedef DIR FF_DIR;
+```
+
+![](images/fatfs_1.jpg)
+
+* 在 main.c 中增加一些测试：
+
+```c
+int main(void)
+{
+	Cache_Enable();                	
+	MPU_Memory_Protection();        
+	HAL_Init();				        		
+	Stm32_Clock_Init(160,5,2,4); 
+	delay_init(400);						
+	uart_init(115200);						
+	usmart_dev.init(200); 		
+	LED_Init();								
+	KEY_Init();								
+	SDRAM_Init();      
+	LCD_Init();								
+  W25QXX_Init();				
+	LTDC_Display_Dir(1);	
+	sys_tick_init(400);
+	
+	tp_dev.init();
+	
+  platform_prepare();
+		
+
+	LCD_ShowString(30,130,200,16,16,"check sdcard");	      
+ 	while(SD_Init())
+	{
+		LCD_ShowString(30,150,200,16,16,"SD Card Error!");
+		delay_ms(500);					
+		LCD_ShowString(30,150,200,16,16,"Please Check! ");
+		delay_ms(500);
+	}
+  LCD_ShowString(30,130,200,16,16,"check sdcard ok");	      
+  
+  FTL_Init();
+ 	exfuns_init();	
+  f_mount(fs[0],"0:",1);
+
+  fs_test(os_fs());
+  
+  rtos_init();
+  awtk_start_ui_thread();
+  rtos_start();
+	
+  return 0;
+}
+```
+
+编译运行，测试通过。
+

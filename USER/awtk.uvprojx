@@ -2041,11 +2041,6 @@
               <FilePath>..\awtk\src\ext_widgets\rich_text\rich_text_view.c</FilePath>
             </File>
             <File>
-              <FileName>fs_os.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\awtk\src\platforms\raw\fs_os.c</FilePath>
-            </File>
-            <File>
               <FileName>emojidef.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\awtk\3rd\libunibreak\emojidef.c</FilePath>
@@ -2504,6 +2499,16 @@
               <FileName>tos_tickless.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\TencentOS\kernel\pm\tos_tickless.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>awtk-fs</GroupName>
+          <Files>
+            <File>
+              <FileName>fs_os_fatfs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk-fs-adapter\src\fs_os_fatfs.c</FilePath>
             </File>
           </Files>
         </Group>
