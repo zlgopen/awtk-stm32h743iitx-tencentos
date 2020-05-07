@@ -88,7 +88,7 @@ ARM Macro Assembler    Page 2
    65 0000001E         
    66 0000001E         ; set pendsv priority lowest
    67 0000001E         ; otherwise trigger pendsv in port_irq_context_switch wi
-                       ll cause a context swich in irq
+                       ll cause a context switch in irq
    68 0000001E         ; that would be a disaster
    69 0000001E F64E 5022 
               F2CE 0000        MOV32            R0, NVIC_SYSPRI14

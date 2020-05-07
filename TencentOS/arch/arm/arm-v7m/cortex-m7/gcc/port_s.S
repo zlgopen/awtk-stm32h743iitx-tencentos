@@ -66,7 +66,7 @@ port_sched_start:
     CPSID   I
 
     @ set pendsv priority lowest
-    @ otherwise trigger pendsv in port_irq_context_switch will cause a context swich in irq
+    @ otherwise trigger pendsv in port_irq_context_switch will cause a context switch in irq
     @ that would be a disaster
     MOVW    R0, #:lower16:NVIC_SYSPRI14
     MOVT    R0, #:upper16:NVIC_SYSPRI14
@@ -112,7 +112,7 @@ port_sched_start:
     @ restore r0, r3
     LDMFD    SP!, {R0 - R3}
     @ load R12 and LR
-    LDMFD    SP!, {R12, LR}    
+    LDMFD    SP!, {R12, LR}
     @ load PC and discard xPSR
     LDMFD    SP!, {R1, R2}
 
@@ -191,7 +191,7 @@ _context_restore:
 
     @ Load PSP with new process SP
     MSR     PSP, R0
-    
+
     CPSIE   I
 
     @ R0-R3, R12, LR, PC, xPSR restored automatically here

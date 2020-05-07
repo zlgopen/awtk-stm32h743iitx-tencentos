@@ -1,4 +1,4 @@
-	EXPORT  port_int_disable
+    EXPORT  port_int_disable
     EXPORT  port_int_enable
 
     EXPORT  port_cpsr_save
@@ -28,7 +28,7 @@ NVIC_PENDSVSET  EQU     0x10000000
     PRESERVE8
 
 
-	GLOBAL port_int_disable
+    GLOBAL port_int_disable
 port_int_disable
     CPSID   I
     BX      LR
@@ -64,7 +64,7 @@ port_sched_start
     CPSID   I
 
     ; set pendsv priority lowest
-    ; otherwise trigger pendsv in port_irq_context_switch will cause a context swich in irq
+    ; otherwise trigger pendsv in port_irq_context_switch will cause a context switch in irq
     ; that would be a disaster
     MOV32   R0, NVIC_SYSPRI14
     MOV32   R1, NVIC_PENDSV_PRI
