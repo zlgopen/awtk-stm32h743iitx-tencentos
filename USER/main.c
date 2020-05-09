@@ -36,8 +36,11 @@ extern void sys_tick_init(int SYSCLK);
 extern ret_t platform_prepare(void);
 extern void systick_enable_int(void);
 extern int gui_app_start(int lcd_w, int lcd_h);
+extern int sqlite3_demo(const char* db_filename);
 
 void* awtk_thread(void* args) {
+  sqlite3_demo("/data/test.db");
+  
   gui_app_start(lcdltdc.width, lcdltdc.height);
 
   return NULL;

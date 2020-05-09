@@ -1002,3 +1002,51 @@ Program Size: Code=593450 RO-data=516062 RW-data=3444 ZI-data=34194540
 编译运行，一切正常（请用最新代码）。
 
 > 如果遇到问题，请在 awtk/src/base/asset_loader_default.c 中的 load_asset 函数设置断点，看看资源有没有正确加载（确认路径是否正确）。
+
+## 15. 支持 sqlite3
+
+> 不需要 sqlite 的同学可跳过
+
+* 下载基于 AWTK 移植的 sqlite3 到 awtk-stm32h743iitx-tencentos 目录
+
+```
+git clone https://github.com/zlgopen/awtk-sqlite3.git
+```
+
+* 加入下列文件 
+
+```
+awtk-sqlite3/src/sqlite3.c
+awtk-sqlite3/demos/sqlite3_test.c
+```
+
+> sqlite3_test.c 用于测试基本功能是否正常。
+
+* 增加头文件搜索路径
+
+```
+..\awtk-sqlite3\src
+```
+
+* 将测试用的数据库文件拷贝到 SD 卡/data/test.db
+
+```
+ awtk-sqlite3/data/test.db ==> /data/test.db
+```
+
+* 调用测试函数
+
+```c
+extern int sqlite3_demo(const char* db_filename);
+
+void* awtk_thread(void* args) {
+  sqlite3_demo("/data/test.db");
+  
+  gui_app_start(lcdltdc.width, lcdltdc.height);
+
+  return NULL;
+}
+
+```
+
+> 放到 RTOS 启动之后调用。

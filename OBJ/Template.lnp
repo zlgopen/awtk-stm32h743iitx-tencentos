@@ -419,6 +419,8 @@
 "..\obj\tos_rwlock.o"
 "..\obj\tos_stopwatch.o"
 "..\obj\fs_os_fatfs.o"
+"..\obj\sqlite3.o"
+"..\obj\sqlite3_test.o"
 --strict --scatter "..\OBJ\Template.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
