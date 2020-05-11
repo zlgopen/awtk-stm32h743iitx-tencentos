@@ -29,4 +29,4 @@ git clone https://github.com/zlgopen/awtk-fs-adapter.git
 
 ## 文档
 
-* [AWTK 在 NSTM32H743 移植笔记](https://github.com/zlgopen/awtk-stm32h743iitx-tencentos/blob/master/docs/stm32h743iitx_port.md)
+* [AWTK 在 STM32H743 移植笔记](https://github.com/zlgopen/awtk-stm32h743iitx-tencentos/blob/master/docs/stm32h743iitx_port.md)
