@@ -156,7 +156,7 @@ AWTK 的源文件很多，而且不同的平台，加入的文件有所不同，
 * 增加头文件路径
 
 ```
-..\awtk\src\ext_widgets;..\awtk;..\awtk\src;..\awtk\3rd;..\awtk\3rd\nanovg\base;..\awtk\3rd\nanovg;..\awtk\3rd\agge;..\awtk\3rd\libunibreak;..\awtk-port
+..\awtk\src\ext_widgets;..\awtk;..\awtk\src;..\awtk\3rd;..\awtk\3rd\nanovg\base;..\awtk\3rd\nanovg;..\awtk\3rd\agge;..\awtk\3rd\libunibreak;..\awtk\3rd\gpinyin\include;..\awtk-port
 ```
 * Misc Controls 中加上--gnu 标志。
 
@@ -320,6 +320,19 @@ ret_t platform_prepare(void) {
 ![](images/awtk_port_1.jpg)
 
 再编译一下，发现编译成功了。当然，只是编译成功而已，并不能真正运行起来，具体移植工作，还有没开始呢。
+
+### 7.7 常见问题
+
+  * 7.7.1 出现 wcsxxx 之类的函数没有定义，请定义WITH_WCSXXX。
+
+```c
+
+/**
+ * 如果出现 wcsxxx 之类的函数没有定义时，请定义该宏
+ *
+ * #define WITH_WCSXXX 1
+ */
+```  
 
 ## 8. 编写平台相关的代码
 
