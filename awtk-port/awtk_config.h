@@ -90,12 +90,6 @@
 //#define WITH_LCD_PORTRAIT 1
 
 /**
- * 启用输入法，但不想启用联想功能，请定义本宏。
- *
- */
-#define WITHOUT_SUGGEST_WORDS 1
-
-/**
  * 如果支持从文件系统加载资源，请定义本宏。
  *
  */
@@ -109,8 +103,18 @@
 
 /**
 * 如果不支持输入法，请定义本宏。
+ * #define WITH_IME_NULL 1
+ */
+
+/**
+ * 启用输入法，但不想启用联想功能，请定义本宏。
+ * #define WITHOUT_SUGGEST_WORDS 1
+ */
+
+/**
+* 如果支持Google拼音输入法，请定义本宏。
  *
  */
-#define WITH_IME_NULL 1
+#define WITH_IME_PINYIN 1
 
 #endif/*AWTK_CONFIG_H*/

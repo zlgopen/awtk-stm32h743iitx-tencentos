@@ -6,6 +6,8 @@
 * 集成实时操作系统 (RTOS)（腾讯的 TinyOS)
 * 集成 FATFS 文件系统，访问 SD 卡的数据。
 * 实现从文件系统加载应用程序的资源。
+* 使用 Sqlite 存储数据。
+* 支持 google 拼音输入法。
 
 ## 1. 介绍
 
@@ -127,6 +129,8 @@ drwxr-xr-x 1 Admin 197121     0 5 月   4 19:06 CORE/
 #define WITH_IME_NULL 1
 ```
 
+> 在支持文件系统之前不要开启输入法，否则可能因为空间不够而编译失败。
+
 ## 5. 加入 AWTK 的源文件
 
 AWTK 的源文件很多，而且不同的平台，加入的文件有所不同，导致加文件的过程非常痛苦。为此，我把 cortex m4/m7 需要的文件，放到 files/files_m47.txt 文件中，并本生成 keil 需要的 xml 格式，放到 files/files_m47.xml 中。自己创建项目时，把 files/files_m47.xml 中的内容放到 USER/awtk.uvprojx 即可。
@@ -153,7 +157,7 @@ AWTK 的源文件很多，而且不同的平台，加入的文件有所不同，
 
 * 定义宏 HAS\_AWTK\_CONFIG
 
-  > HAS\_AWTK\_CONFIG 的功能是让 awtk_config.h 生效，所以必须放在IDE中定义，而其它用于配置的宏则放在 awtk_config.h 中。
+  > HAS\_AWTK\_CONFIG 的功能是让 awtk_config.h 生效，所以必须放在 IDE 中定义，而其它用于配置的宏则放在 awtk_config.h 中。
 
 * 增加头文件路径
 
@@ -325,7 +329,7 @@ ret_t platform_prepare(void) {
 
 ### 7.7 常见问题
 
-  * 7.7.1 出现 wcsxxx 之类的函数没有定义，请定义WITH_WCSXXX。
+  * 7.7.1 出现 wcsxxx 之类的函数没有定义，请在 awtk_config.h 定义 WITH_WCSXXX。
 
 ```c
 
@@ -1065,3 +1069,71 @@ void* awtk_thread(void* args) {
 ```
 
 > 放到 RTOS 启动之后调用。
+
+## 16. 支持中文输入法
+
+> 要支持中文输入法，一般要支持文件系统，否则内部 flash 可能不够用。
+
+这里以添加 google 拼音输入法为例，演示如何添加输入法。
+
+* 增加相关文件
+
+```
+..\awtk\3rd\gpinyin\src\dictlist.cpp
+..\awtk\3rd\gpinyin\src\dicttrie.cpp
+..\awtk\3rd\gpinyin\src\lpicache.cpp
+..\awtk\3rd\gpinyin\src\matrixsearch.cpp
+..\awtk\3rd\gpinyin\src\mystdlib.cpp
+..\awtk\3rd\gpinyin\src\ngram.cpp
+..\awtk\3rd\gpinyin\src\pinyinime.cpp
+..\awtk\3rd\gpinyin\src\searchutility.cpp
+..\awtk\3rd\gpinyin\src\spellingtrie.cpp
+..\awtk\3rd\gpinyin\src\splparser.cpp
+..\awtk\3rd\gpinyin\src\utf16char.cpp
+..\awtk\src\input_engines\input_engine_pinyin.cpp
+```
+
+* 增加头文件搜索路径
+
+```
+..\awtk\3rd\gpinyin\include
+```
+
+* 修改 awtk_config.h 中宏定义
+
+```c
+/**
+* 如果不支持输入法，请定义本宏。
+ * #define WITH_IME_NULL 1
+ */
+
+/**
+ * 启用输入法，但不想启用联想功能，请定义本宏。
+ * #define WITHOUT_SUGGEST_WORDS 1
+ */
+
+/**
+* 如果支持 Google 拼音输入法，请定义本宏。
+ *
+ */
+#define WITH_IME_PINYIN 1
+```
+
+编译一下，如果成功，可以看到 Code + RO-data 超过 1M，如果你的 flash 只有 1M，那可能会编译失败。
+
+```
+Program Size: Code=896304 RO-data=294700 RW-data=4612 ZI-data=34186956  
+```
+
+所以如果你想要启用中文输入法，最好使用有 2M 内部 flash 的板子。如果你非要使用 1M 的板子，可以尝试：
+
+* 1. 把编译器的优先级提高一级，可以减少代码段的大小。
+
+* 2. 修改 ffconf.h，减少常量大小。
+
+```
+//#define FF_CODE_PAGE	936
+#define FF_CODE_PAGE	437
+```
+
+> 建议使用 H743，flash 大，而且速度快。
