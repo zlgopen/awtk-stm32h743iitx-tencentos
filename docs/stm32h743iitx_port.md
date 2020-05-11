@@ -153,6 +153,8 @@ AWTK 的源文件很多，而且不同的平台，加入的文件有所不同，
 
 * 定义宏 HAS\_AWTK\_CONFIG
 
+  > HAS\_AWTK\_CONFIG 的功能是让 awtk_config.h 生效，所以必须放在IDE中定义，而其它用于配置的宏则放在 awtk_config.h 中。
+
 * 增加头文件路径
 
 ```
@@ -332,7 +334,7 @@ ret_t platform_prepare(void) {
  *
  * #define WITH_WCSXXX 1
  */
-```  
+```
 
 ## 8. 编写平台相关的代码
 
