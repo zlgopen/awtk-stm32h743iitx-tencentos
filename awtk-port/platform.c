@@ -24,7 +24,7 @@
 #include "base/timer.h"
 #include "tkc/platform.h"
 
-#define MEM2_MAX_SIZE 8 * 1024 * 1024
+#define MEM2_MAX_SIZE 16 * 1024 * 1024
 #define MEM2_ADDR (uint8_t*)0XC0000000 + 2 * 1024 * 1024
 
 ret_t platform_prepare(void) {

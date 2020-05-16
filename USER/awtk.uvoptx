@@ -152,7 +152,7 @@
           <Type>0</Type>
           <LineNumber>300</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134512788</Address>
+          <Address>134559346</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -166,18 +166,18 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>42</LineNumber>
+          <LineNumber>271</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134328510</Address>
+          <Address>134531336</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\main.c</Filename>
+          <Filename>..\awtk\src\base\image_manager.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Template\main.c\42</Expression>
+          <Expression>\\Template\../awtk/src/base/image_manager.c\271</Expression>
         </Bp>
       </Breakpoint>
       <MemoryWindow1>
@@ -297,7 +297,7 @@
 
   <Group>
     <GroupName>CORE</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -1153,7 +1153,7 @@
 
   <Group>
     <GroupName>awtk</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -5481,7 +5481,7 @@
 
   <Group>
     <GroupName>awtk-fs</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -5489,7 +5489,7 @@
       <GroupNumber>14</GroupNumber>
       <FileNumber>429</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\awtk-fs-adapter\src\fs_os_fatfs.c</PathWithFileName>

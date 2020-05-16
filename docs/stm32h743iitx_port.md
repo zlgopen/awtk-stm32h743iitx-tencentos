@@ -843,7 +843,7 @@ static ret_t awtk_start_ui_thread(void) {
 
   tk_thread_set_priority(ui_thread, 3);
   tk_thread_set_name(ui_thread, "awtk");
-  tk_thread_set_stack_size(ui_thread, 0x8000);
+  tk_thread_set_stack_size(ui_thread, 0xc000);
 
   return tk_thread_start(ui_thread);
 }
@@ -884,6 +884,7 @@ int main(void)
 编译运行，一切正常。
 
 > GUI 线程的栈不小于 0x8000，否则可能出现莫名奇妙的错误。
+> 如果要使用 gif 图像文件，GUI 线程的栈不小于 0xC000。
 
 ## 13. 加入 FATFS 访问 SD 卡
 
