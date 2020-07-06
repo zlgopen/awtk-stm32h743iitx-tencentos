@@ -370,8 +370,6 @@
 ..\awtk\src\native_window\native_window_raw.c
 ..\awtk\src\platforms\raw\cond_var_null.c
 ..\awtk\src\platforms\raw\fs_os.c
-..\awtk\src\platforms\raw\fs_os.c
-..\awtk\src\platforms\raw\mutex_null.c
 ..\awtk\src\platforms\raw\mutex_null.c
 ..\awtk\src\platforms\raw\sys_tick_handler.c
 ..\awtk\src\svg\bsvg.c
@@ -404,6 +402,12 @@
 ..\awtk\src\tkc\crc.c
 ..\awtk\src\tkc\darray.c
 ..\awtk\src\tkc\darray.c
+..\awtk\src\tkc\data_reader.c
+..\awtk\src\tkc\data_reader_factory.c
+..\awtk\src\tkc\data_reader_file.c
+..\awtk\src\tkc\data_writer.c
+..\awtk\src\tkc\data_writer_factory.c
+..\awtk\src\tkc\data_writer_file.c
 ..\awtk\src\tkc\date_time.c
 ..\awtk\src\tkc\date_time.c
 ..\awtk\src\tkc\easing.c
@@ -446,6 +450,7 @@
 ..\awtk\src\tkc\matrix.c
 ..\awtk\src\tkc\mem.c
 ..\awtk\src\tkc\mem.c
+..\awtk\src\tkc\mutex_nest.c
 ..\awtk\src\tkc\named_value.c
 ..\awtk\src\tkc\named_value.c
 ..\awtk\src\tkc\object.c
@@ -454,6 +459,7 @@
 ..\awtk\src\tkc\object_array.c
 ..\awtk\src\tkc\object_default.c
 ..\awtk\src\tkc\object_default.c
+..\awtk\src\tkc\object_locker.c
 ..\awtk\src\tkc\ostream.c
 ..\awtk\src\tkc\ostream.c
 ..\awtk\src\tkc\path.c

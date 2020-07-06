@@ -1711,6 +1711,11 @@
               <FilePath>..\awtk\src\native_window\native_window_raw.c</FilePath>
             </File>
             <File>
+              <FileName>cond_var_null.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\platforms\raw\cond_var_null.c</FilePath>
+            </File>
+            <File>
               <FileName>bsvg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\awtk\src\svg\bsvg.c</FilePath>
@@ -1784,6 +1789,36 @@
               <FileName>darray.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\awtk\src\tkc\darray.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_reader.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\tkc\data_reader.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_reader_factory.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\tkc\data_reader_factory.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_reader_file.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\tkc\data_reader_file.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_writer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\tkc\data_writer.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_writer_factory.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\tkc\data_writer_factory.c</FilePath>
+            </File>
+            <File>
+              <FileName>data_writer_file.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\tkc\data_writer_file.c</FilePath>
             </File>
             <File>
               <FileName>date_time.c</FileName>
@@ -1891,6 +1926,11 @@
               <FilePath>..\awtk\src\tkc\mem.c</FilePath>
             </File>
             <File>
+              <FileName>mutex_nest.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\tkc\mutex_nest.c</FilePath>
+            </File>
+            <File>
               <FileName>named_value.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\awtk\src\tkc\named_value.c</FilePath>
@@ -1909,6 +1949,11 @@
               <FileName>object_default.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\awtk\src\tkc\object_default.c</FilePath>
+            </File>
+            <File>
+              <FileName>object_locker.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\awtk\src\tkc\object_locker.c</FilePath>
             </File>
             <File>
               <FileName>ostream.c</FileName>
