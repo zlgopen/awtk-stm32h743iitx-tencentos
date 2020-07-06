@@ -53,6 +53,7 @@
 ..\awtk\src\base\dialog_highlighter.c
 ..\awtk\src\base\dialog_highlighter_factory.c
 ..\awtk\src\base\dialog_highlighter_factory.c
+..\awtk\src\base\data_reader_asset.c
 ..\awtk\src\base\enums.c
 ..\awtk\src\base\enums.c
 ..\awtk\src\base\event_queue.c

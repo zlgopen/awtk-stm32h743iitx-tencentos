@@ -274,6 +274,11 @@
                 <FilePath>..\awtk\src\base\dialog_highlighter_factory.c</FilePath>
              </File>
             <File>
+                <FileName>data_reader_asset.c</FileName>
+                <FileType>1</FileType>
+                <FilePath>..\awtk\src\base\data_reader_asset.c</FilePath>
+             </File>
+            <File>
                 <FileName>enums.c</FileName>
                 <FileType>1</FileType>
                 <FilePath>..\awtk\src\base\enums.c</FilePath>
