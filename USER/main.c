@@ -50,7 +50,7 @@ static ret_t awtk_start_ui_thread(void) {
   tk_thread_t* ui_thread = tk_thread_create(awtk_thread, NULL);
   return_value_if_fail(ui_thread != NULL, RET_BAD_PARAMS);
 
-  tk_thread_set_priority(ui_thread, 3);
+  tk_thread_set_priority(ui_thread, TK_THREAD_PRIORITY_NORMAL);
   tk_thread_set_name(ui_thread, "awtk");
   tk_thread_set_stack_size(ui_thread, 0xc000);
 
