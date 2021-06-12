@@ -35,7 +35,7 @@
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32H7xx_HAL_USART_H
-#define __STM3H7xx_HAL_USART_H
+#define __STM32H7xx_HAL_USART_H
 
 #ifdef __cplusplus
  extern "C" {
