@@ -445,7 +445,8 @@
 "..\obj\window_manager_default.o"
 "..\obj\xml_builder.o"
 "..\obj\xml_parser.o"
+"..\obj\typed_array.o"
 --strict --scatter "..\OBJ\Template.sct"
---summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "..\OBJ\Template.map" -o ..\OBJ\Template.axf

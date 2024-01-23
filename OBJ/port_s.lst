@@ -231,9 +231,10 @@ ARM Macro Assembler    Page 4
               E000ED08 
               E000ED04 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M7.fp.dp --apcs=
-interwork --depend=..\obj\port_s.d -o..\obj\port_s.o -I.\RTE\_awtkapp -IC:\Keil
-_v5\ARM\PACK\Keil\STM32H7xx_DFP\2.7.0\Drivers\CMSIS\Device\ST\STM32H7xx\Include
- -IC:\Keil_v5\ARM\CMSIS\Include --predefine="__UVISION_VERSION SETA 524" --pred
+interwork --depend=..\obj\port_s.d -o..\obj\port_s.o -IC:\Users\jim\work\awtk-r
+oot\awtk-stm32h743iitx-tencentos\USER\RTE -IC:\Keil_v5\ARM\PACK\Keil\STM32H7xx_
+DFP\3.1.1\Drivers\CMSIS\Device\ST\STM32H7xx\Include -IC:\Keil_v5\ARM\CMSIS\Incl
+ude --predefine="__EVAL SETA 1" --predefine="__UVISION_VERSION SETA 521" --pred
 efine="STM32H743xx SETA 1" --list=..\obj\port_s.lst ..\TencentOS\arch\arm\arm-v
 7m\cortex-m7\armcc\port_s.S
 
@@ -442,4 +443,4 @@ Symbol: k_next_task
 S
 
 2 symbols
-354 symbols in table
+355 symbols in table
