@@ -1,5 +1,5 @@
 --cpu Cortex-M7.fp.dp
-"..\obj\main.o"
+"..\obj\real_main.o"
 "..\obj\stm32h7xx_it.o"
 "..\obj\system_stm32h7xx.o"
 "..\obj\stm32h7xx_hal_msp.o"
@@ -75,8 +75,12 @@
 "..\obj\semaphore.o"
 "..\obj\thread.o"
 "..\obj\sys_tick_handler.o"
-"..\obj\assets-1m.o"
-"..\obj\demo_ui_app.o"
+"..\obj\application.o"
+"..\obj\main.o"
+"..\obj\navigator.o"
+"..\obj\home_page.o"
+"..\obj\window1.o"
+"..\obj\window2.o"
 "..\obj\tos_cpu.o"
 "..\obj\tos_fault.o"
 "..\obj\port_c.o"
@@ -447,6 +451,6 @@
 "..\obj\xml_parser.o"
 "..\obj\typed_array.o"
 --strict --scatter "..\OBJ\Template.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "..\OBJ\Template.map" -o ..\OBJ\Template.axf

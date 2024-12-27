@@ -19,13 +19,21 @@
 1. 获取源码
 
 ```
-git clone https://github.com/zlgopen/awtk-stm32h743iitx-tencentos.git
-cd awtk-stm32h743iitx-tencentos
 git clone https://github.com/zlgopen/awtk.git
+git clone https://github.com/zlgopen/awtk-demo-app.git
+git clone https://github.com/zlgopen/awtk-sqlite3.git
 git clone https://github.com/zlgopen/awtk-fs-adapter.git
+git clone https://github.com/zlgopen/awtk-stm32h743iitx-tencentos.git
 ```
 
 2. 用 keil 打开 USER/awtk.uvprojx
+
+3. 将资源放到 T 卡的目录/awtk/assets/中。
+
+4. 如果不想将资源放到 T 卡，可在 awtk_config.h 中注释掉下面的代码：
+```
+#define WITH_FS_RES 1
+```
 
 ## 文档
 
